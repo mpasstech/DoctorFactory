@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html>
+  
+
+<head>
+    <meta charset="utf-8">
+    <!-- PAGE TITLE -->
+    <title>Contact Us</title>
+    <!-- MAKE IT RESPONSIVE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <!-- FAVICON -->	
+	<!--<link rel="shortcut icon" href="images/favicon.png" />-->
+    <!-- STYLESHEETS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/animate.min.css" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css" rel="stylesheet" media="screen">
+    <link href="style.css" rel="stylesheet" media="screen">
+    <link href="css/options.css" rel="stylesheet" media="screen">
+    <link href="css/responsive.css" rel="stylesheet" media="screen">
+    <!-- FONTS -->
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:900,300,400,200,800' rel='stylesheet' type='text/css'>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <!-- START BODY -->
+  <body>
+
+  	<div id="page">
+	  	<!-- START HEADER -->
+	  	<header id="header" class="small with-separation-bottom">
+	  		<!-- POINTER ANIMATED -->
+	  		<canvas id="header-canvas"></canvas>
+	  		
+	  		<!-- TOP NAVIGATION -->
+	  		<div id="top-navigation">
+		  		<ul class="animate-me fadeInDown" data-wow-duration="1.2s">
+			  		<li class="menu-item"><i class="fa fa-phone"></i>91 9024715913</li>
+			  		
+			  		<li class="menu-item"><span class="navigation-social">We're social !</span> <a href="https://www.facebook.com/Krishna-Padam-It-Solutions-1478739362431274"><i class="fa fa-facebook"></i></a> <a href="https://twitter.com/kpitsolution"><i class="fa fa-twitter"></i></a> <a href="https://www.youtube.com/"><i class="fa fa-youtube"></i></a></li>
+			  		<li class="menu-item">
+			  			
+		  		</ul>
+	  		</div>
+	  	
+	  		<!-- MOBILE NAVIGATION -->
+	  		<nav id="navigation-mobile"></nav>
+	  	
+	  		<!-- MAIN MENU -->
+	  		<nav id="navigation">
+	  			<!-- DISPLAY MOBILE MENU -->
+	  			<a href="#" id="show-mobile-menu"><i class="fa fa-bars"></i></a>
+	  			<!-- CLOSE MOBILE MENU -->
+		  		<a href="#" id="close-navigation-mobile"><i class="fa fa-long-arrow-left"></i></a>
+	  			
+		  		<ul id="left-navigation" class="animate-me fadeInLeftBig">
+			  		<li class="menu-item menu-item-has-children">
+			  			<a href="index.html" data-description="All starts here">Home</a>
+			  			
+			  		</li>
+			  		<li class="menu-item menu-item-has-children">
+			  			<a href="portfolio.html" data-description="What we do">Portfolio</a>
+			  		
+			  		</li>
+			  		<li class="menu-item"><a href="services.html" data-description="We're the best">Services</a></li>
+		  		</ul>
+		  		<div  class="animate-me flipInX" data-wow-duration="3s">
+		  			<a href="index.html" id="logo-navigation">
+					<h1> Krishna Padam</h1>
+		  				<span>IT Solutions</span>
+		  			</a>
+		  		</div>
+		  		<ul id="right-navigation" class="animate-me fadeInRightBig">
+			  		<li class="menu-item"><a href="about.html" data-description="We are a team">About</a></li>
+			  		<li class="menu-item menu-item-has-children">
+			  			<a href="carrer.html" data-description="We share">Carrer</a>
+			  			
+			  		</li>
+			  		<li class="menu-item current-menu-item"><a href="contact.html" data-description="Let's get in touch">Contact</a></li>
+		  		</ul>
+	  		</nav>
+
+	  		<!-- SHADOW -->
+	  		<div id="shade"></div>
+
+	  		<!-- HEADER SLIDER -->
+		  	<div class="flexslider" id="header-slider">
+		  		<ul class="slides">
+		  			<li><img src="images/backgrounds/contact.jpg" alt="SLider Image"></li>
+		  		</ul>	
+		  	</div>
+	  		
+	  	</header>
+	  	<!-- END HEADER -->
+	  	
+	  	<!-- START MAIN CONTAINER -->
+	  	<div class="main-container">
+	  		<div id="contact-container" class="container">
+	  			<!-- services -->
+	  			<h2 class="with-breaker animate-me fadeInUp">
+		  			Contact <span>Let's get in touch</span>
+	  			</h2>
+	  			
+	  			<div class="row">
+	  				<div class="col-md-6">
+	  					<!-- Google Map -->
+	  					<div id="GoogleMap"></div>
+	  				</div>
+	  				<div class="col-md-6">
+	  					<!-- FORMS -->
+	  					<form id="contact-form" method="post" action="mailphp.php" enctype="text/plain" class="form-horizontal">
+							<!-- NAME -->
+							<div class="control-group row">
+								<label class="control-label col-md-3" for="contact-name">Name</label>
+								<div class="controls col-md-9">
+									<input id="contact-name" name="name" type="text" placeholder="name" class="input-xlarge form-control" required="">
+								</div>
+							</div>
+							<!-- EMAIL -->
+							<div class="control-group row">
+								<label class="control-label col-md-3" for="contact-email">Email</label>
+								<div class="controls col-md-9">
+									<input id="contact-email" name="email" type="text" placeholder="pkis@example.com" class="input-xlarge form-control" required="">
+								</div>
+							</div>
+							<!-- TOPIC -->
+							<div class="control-group row">
+								<label class="control-label col-md-3" for="contact-topic">Country</label>
+								<div class="controls col-md-9">
+									
+									<input id="contact-email" name="country" type="text"  class="input-xlarge form-control" required="">
+										
+									
+								</div> 
+							</div>
+							<!-- MESSAGE -->
+							<div class="control-group row">
+								<label class="control-label col-md-3" for="contact-message">Message</label>
+								<div class="controls col-md-9">                     
+									<textarea id="contact-message" name="message" class=" form-control" rows="5">We are eager to hear from you !</textarea>
+								</div>
+							</div>
+							<!-- CAPTCHA -->
+							
+							<!-- BUTTON -->
+							<div class="control-group text-right">
+							 	<input type="hidden" name="submitted" id="submitted" value="true" />
+							 	<button type="submit" class="btn btn-default" name="submitted"><i class="fa fa-paper-plane-o"></i> Send</button>
+							</div>
+						</form>
+	  				</div>
+	  			</div>
+	  		</div>
+                    <!-- GET IN TOUCH  -->
+	  			<h2 class="with-breaker animate-me fadeInUp">
+		  			Get In Touch<span>What are you waiting for ?</span>
+	  			</h2>
+	  		</div>
+	  		<!-- CUSTOM CONTAINER -->
+	  		<section class="contact-container with-separation-bottom with-separation-top">
+		  		<div class="contact-boxes">
+		  			<div class="contact-box contact-box-email animate-me zoomIn">
+		  				<h2>Email</h2>
+		  				<p>Write us a few lines about your ideas, your projects and let's advance together.</p>
+		  				<a href="http://www.gmail.com" class="btn btn-default"><i class="fa fa-envelope"></i> Email Us</a>
+		  			</div>
+		  			<div class="contact-box contact-box-twitter animate-me zoomIn">
+		  				<h2>Twitter</h2>
+		  				<p>Follow us to interact, chat and share our ideas on Twitter.</p>
+		  				<a href="https://twitter.com/kpitsolution" class="btn btn-default"><i class="fa fa-twitter"></i> Follow us</a>
+		  			</div>
+		  			<div class="contact-box contact-box-facebook animate-me zoomIn">
+		  				<h2>Facebook</h2>
+		  				<p>Like our page and send us message directly from our brand new Facebook page.</p>
+		  				<a href="https://www.facebook.com/Krishna-Padam-It-Solutions-1478739362431274" class="btn btn-default"><i class="fa fa-facebook"></i> Like Our Page</a>
+		  			</div>
+		  			<div class="contact-box contact-box-skype animate-me zoomIn">
+		  				<h2>Skype</h2>
+		  				<p>Call us or chat with us on Skype whenever you like, do not hesitate.</p>
+		  				<!-- GET THE LINL -> http://www.skype.com/en/features/skype-buttons/create-skype-buttons/--> 
+		  				<a href="http://www.skype.com/kpitsolutions" class="btn btn-default"><i class="fa fa-skype"></i> Call Us</a>
+		  			</div>
+		  		</div>
+	  		</section>
+	  		
+	  	</div>
+	  	
+	  	<!-- START FOOTER -->
+	  	<footer id="footer" class="with-separation-top">
+		  	<aside id="widgets" class="container">
+		  		<div class="row">
+		  			<!-- WIDGET -->
+			  		<div class="col-md-4 widget animate-me fadeInLeft">
+			  			<!-- <img src="images/logo-footer.png" id="footer-logo" alt="Logo footer"> -->
+						<h2> Krishna Padam <br><small>IT Solutions</small></h2>
+			  			<p> Krishna Padam It Solutions is one of the leading and fastest growing IT company in 
+						Jaipur that provides Global Solutions to the organizations around the world. .</p>
+			  			<a href="about.html" class="btn btn-default"><i class="fa fa-users"></i> Read more</a>
+			  		</div>
+		  			<!-- WIDGET -->
+			  		<div class="col-md-4 widget animate-me fadeInUp">
+				  		<h4>Navigation</h4>
+				  		<ul>
+					  		<li><a href="index.html">Home</a></li>
+					  		<li><a href="portfolio.html">Portfolio</a></li>
+					  		<li><a href="Carrer.html">Carrer</a></li>
+					  		<li><a href="about.html">About Us</a></li>
+				  		</ul>
+			  		</div>
+		  			<!-- WIDGET -->
+			  		<div class="col-md-4 widget animate-me fadeInRight">
+			  			<h4>Contact</h4>
+			  			<ul class="contact-informations">
+				  			<li class="contact-address">  Krishna Padam IT Solutions <br>RPA Road,Panipech,Jaipur</li>
+				  			<li class="contact-phone">(+91) 9772657312</li>
+			  			</ul>
+			  			<ul class="widget-social">
+			  				<!-- ALL ICONS AVAILABLE ->http://fortawesome.github.io/Font-Awesome/icons/#brand-->
+				  			<li><a href="https://www.facebook.com/Krishna-Padam-It-Solutions-1478739362431274"><i class="fa fa-facebook"></i></a></li>
+				  			<li><a href="https://twitter.com/kpitsolution"><i class="fa fa-twitter"></i></a></li>
+				  			<li><a href="http://www.skype.com/kpitsolutions"><i class="fa fa-skype"></i></a></li>
+				  			
+			  			</ul>
+			  			<a href="contact.html" class="btn btn-default"><i class="fa fa-envelope-o"></i> Contact Form</a>
+			  		</div>
+		  		</div>
+		  	</aside>
+		  	<div id="copyright" class="animate-me fadeInUp">
+		  		<div class="container">
+                                    <p>&#169; 2015 All Rights Reserved. Powered by <a href="index.html"> Krishna Padam <small>IT Solutions</small></a>.</p>
+			  		
+		  		</div>
+		  	</div>
+	  	</footer>
+	  	<!-- END FOOTER -->
+	  	
+	  	<!-- SCROLL TOP -->
+	  	<a href="#" id="scroll-top" class="fadeInRight animate-me"><i class="fa fa-angle-double-up"></i></a>
+  	</div>
+
+    <!-- SCRIPTS -->
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <!-- ONLY FOR THE CONTACT PAGE : MAP SCRIPT -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+    <script>
+		function initialize() {
+		  var myLatlng = new google.maps.LatLng(26.9503708,75.7873221); //http://itouchmap.com/latlong.html
+		  var mapOptions = {
+		    zoom: 15,
+		    center: myLatlng
+		  }
+		  var map = new google.maps.Map(document.getElementById('GoogleMap'), mapOptions);
+		
+		  var marker = new google.maps.Marker({
+		      position: myLatlng,
+		      map: map,
+		      title: 'Hello World!'
+		  });
+		}
+		
+		google.maps.event.addDomListener(window, 'load', initialize);
+		
+	</script>
+	<!-- END -->
+    <script src="js/plugins.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+  <!-- END BODY -->
+
+
+</html>

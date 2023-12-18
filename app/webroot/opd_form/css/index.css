@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Slab:wght@400;700&display=swap');
+
+html {
+    height: 100%;
+    min-height:800px;
+}
+body {
+
+    background-size:cover;
+    background-repeat:no-repeat;
+    text-align: center;
+    font-family: 'Noto Sans', sans-serif;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0 auto;
+
+}
+
+h1{
+    font-weight:400;
+    padding-top:0;
+    margin-top:0;
+    font-family: 'Roboto Slab', serif;
+}
+
+#svg_form_time {
+    height: 15px;
+    max-width: 80%;
+    margin: 40px auto 20px;
+    display: block;
+}
+
+#svg_form_time circle,
+#svg_form_time rect {
+    fill: white;
+}
+
+.button {
+    background: rgb(93 84 255);
+    border-radius: 5px;
+    padding: 15px 25px;
+    display: inline-block;
+    margin: 10px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    box-shadow:0px 2px 5px rgb(0,0,0,0.5);
+}
+
+.disabled {
+    display:none;
+}
+
+section {
+    padding: 35px ;
+    max-width: 75%;
+    margin: 15px auto;
+    background:white;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
+    box-shadow:0px 2px 10px rgba(0,0,0,0.3);
+    border-radius:5px;
+    transition:transform 0.2s ease-in-out;
+}
+
+
+section label{
+    width: 100%;
+    text-align: left;
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    margin: 7px 0px;
+    display: inline-block;
+    padding: 12px 25px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    font-size: 1em;
+    font-family:inherit;
+    background:white;
+}
+
+p{
+
+    margin-top:0;
+    font-weight: 500;
+    font-size: 1.4rem;
+    text-align: center;
+    display: block;
+
+}
+
+
+
+form {
+    margin: 2em auto 2em auto;
+    width: 100%;
+    max-width: 600px;
+    background-color: bisque;
+    padding: 1em 0 1em;
+    box-shadow:0 0 5px inset black;
+}
+
+form div.field {
+    text-align: center;
+    margin: 0 auto 0 auto;
+    width: 98%;
+    padding: 0.5em 0 0.5em;
+}
+
+form div.field label {
+    font-weight: bolder;
+    margin: 0 auto 0 auto;
+    display: block;
+    padding: 1.5em 0 1em;
+    width: 100%;
+    font-size: 1.4em;
+}
+
+form div.field input {
+    font-size: 1.2em;
+    margin: 0 auto 0 auto;
+    outline: none;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    padding: 1em 0 1em;
+    background: none;
+    border-bottom: 1px solid black;
+    color: black;
+}
+
+@media (max-width:1020px) {
+    form {
+        width: 90%;
+    }
+}
+h3 img{
+    width: 60px;
+    height: 60px;
+    float: left;
+    position: relative;
+    border-radius: 56px;
+    border: 10px solid #fff;
+}
+h3{
+    background: rgb(93 84 255);
+    color: #fff;
+    margin: 0;
+    padding: 15px 5px;
+}
+
+
+

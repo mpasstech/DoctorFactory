@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto+Slab:wght@400;700&display=swap');
+html {
+    height: 100%;
+    min-height:800px;
+}
+body {
+    background-size:cover;
+    background-repeat:no-repeat;
+    text-align: center;
+    font-family: 'Noto Sans', sans-serif;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0 auto;
+}
+
+h1{
+    font-weight:400;
+    padding-top:0;
+    margin-top:0;
+    font-family: 'Roboto Slab', serif;
+}
+
+#svg_form_time {
+    height: 15px;
+    max-width: 80%;
+    margin: 40px auto 20px;
+    display: block;
+}
+
+#svg_form_time circle,
+#svg_form_time rect {
+    fill: white;
+}
+
+.button {
+    background: rgb(93 84 255);
+    border-radius: 5px;
+    padding: 10px 5px;
+    display: inline-block;
+    margin: 5px 2px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px rgb(0,0,0,0.5);
+    width: 48%;
+    text-align: center;
+
+}
+
+.disabled {
+    display:none;
+}
+
+.section {
+
+}
+#profile_sec{
+    float: left;
+    width: 100%;
+    display: block;
+
+}
+
+
+
+.section form{
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.section label{
+    width: auto;
+    text-align: left;
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    margin: 7px 0px;
+    display: inline-block;
+    padding: 12px 25px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    font-size: 1em;
+    font-family:inherit;
+    background:white;
+}
+
+p{
+
+    margin-top:0;
+    font-weight: 500;
+    font-size: 1.4rem;
+    text-align: center;
+    display: block;
+
+}
+
+
+.buton_box{
+    text-align: center;
+    margin: 10px 0px;
+}
+
+
+@media (max-width:1020px) {
+
+
+}
+
+
+header img{
+    width: 50px;
+    height: 50px;
+    float: left;
+    position: relative;
+    border-radius: 56px;
+    border: 6px solid #fff;
+    margin-top: -4px;
+}
+header{
+    background: rgb(93 84 255);
+    color: #fff;
+    margin: 0;
+    padding: 8px 5px;
+}
+body{
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+.expire_message{
+    padding: 15px 6px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+.war_message{
+    color: red;
+    font-size: 1rem;
+}
+.time_expired{
+    width: 40%;
+    margin: 10% auto;
+    display: block;
+}
+.req_input{
+    border-color: red !important;
+}
+.section_box{
+    width: 100%;
+    display: block;
+    float: left;
+    padding: 17px 0px;
+    margin: 0.9rem 0.2rem;
+    background: white;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 2px 10px rgb(0 0 0 / 30%);
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+    min-height: 45%;
+
+}
+
+
+.thankyou{
+    margin: 20px auto;
+    display: block;
+    width: 100px;
+    height: 100px;
+}
+
+.top_heading{
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    margin: 0.8rem 0px;
+}
+
+.container_element {
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 8px 1px 8px 54px !important;
+    float: left;
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    text-align: left;
+}
+
+/* Hide the browser's default checkbox */
+.container_element input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    background-color: #fff;
+}
+
+/* On mouse-over, add a grey background color */
+.container_element:hover input ~ .checkmark {
+    background-color: #fff;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container_element input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container_element input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container_element .checkmark:after {
+    left: 14px;
+    top: 6px;
+    width: 10px;
+    height: 15px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.doctor_list_profile{
+    width: 100%;
+    height: 100%
+
+}
+.doctor_selection{
+    float: left;
+    width: 100%;
+    display: block;
+}
+
+.selected_label{
+    background: #5D54FF;
+    color: #fff;
+}
+.inner_label{
+    text-align: center;
+    margin: 10px;
+}
+.doctor_bar{
+    text-align: center;
+}
+.selected_img_box{
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    border: 1px solid #bfbebe;
+    padding: 2px;
+}
+.message_lbl{
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    min-height: 40px;
+}
+
+
+#list_append td{
+    padding: 1px;
+}
+#list_append{
+    padding: 14px 0px !important;
+    width: 100% !important;
+    margin: 0 0% !important;
+}
+
+.btn_td .btn{
+
+    color: #fff;
+    padding: 4px 5px;
+    border-radius: 3px;
+    border: none;
+    margin: 2px;
+    font-size: 0.7rem !important;
+}
+
+
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 5px 4px;
+    font-size: 0.7rem;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+
+
+#customers th {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: left;
+    background-color: #5D54FF;
+    color: white;
+}
+.section_box{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+.login_box{
+    padding: 50px 0px;
+    text-align: center;
+}
+
+@font-face {font-family: "AR CENA";
+    src: url("../fonts/8b6fc6a9fee1149b9722ef2e2c734970.eot"); /* IE9*/
+    src: url("../fonts/8b6fc6a9fee1149b9722ef2e2c734970.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/8b6fc6a9fee1149b9722ef2e2c734970.woff2") format("woff2"), /* chrome、firefox */
+    url("../fonts/8b6fc6a9fee1149b9722ef2e2c734970.woff") format("woff"), /* chrome、firefox */
+    url("../fonts/8b6fc6a9fee1149b9722ef2e2c734970.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url("../fonts/8b6fc6a9fee1149b9722ef2e2c734970.svg#AR CENA") format("svg"); /* iOS 4.1- */
+}
+
+.qutot_font{
+    font-family: "AR CENA" !important;
+}

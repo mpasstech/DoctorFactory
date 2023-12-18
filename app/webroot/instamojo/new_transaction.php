@@ -1,0 +1,202 @@
+<?php
+
+
+include_once "../webservice/Custom.php";
+include_once "../constant.php";
+
+const apiKey = INSTAMOJO_API_KEY;
+const apiSecret = INSTAMOJO_API_SECRET;
+const salt = INSTAMOJO_SALT;
+$redirectUrl = array("Android"=>"https://www.instamojo.com/integrations/android/redirect/","iOS"=>"https://www.instamojo.com/integrations/android/redirect/","web"=>INSTAMOJO_URL);
+const notifyUrl = INSTAMOJO_URL;
+
+
+class InstamojoClient
+{
+    const version = '1.0';
+    private $apiKey;
+    private $apiSecret;
+    private $salt;
+    private $token;
+    public function __construct($apiKey, $apiSecret, $salt, $env = "test")
+    {
+        $this->apiKey = $apiKey;
+        $this->apiSecret = $apiSecret;
+        $this->salt = $salt;
+        $exp_string = explode("_",$apiKey);
+        if(@strtoupper($exp_string[0]) == 'TEST'){
+            $this->env = "test";
+        }else{
+            $this->env = $env;
+        }
+
+    }
+    public function getAccessToken()
+    {
+        $curl = curl_init("https://" . $this->env . ".instamojo.com/oauth2/token/");
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, rawurldecode(http_build_query(array(
+            'client_id' => $this->apiKey,
+            'client_secret' => $this->apiSecret,
+            'grant_type' => 'client_credentials'
+        ))));
+        $json = json_decode(curl_exec($curl));
+        if (isset($json->error)) {
+            echo "Error: " . $json->error;
+            throw new \Exception("Error: " . $json->error);
+        }
+//    echo "Generated new access token: " . $json->access_token;
+        $this->token = $json;
+//    var_dump($json)
+        return $json->access_token;
+    }
+    public function __destruct()
+    {
+    }
+    private function gen_uuid()
+    {
+        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            // 32 bits for "time_low"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+            // 16 bits for "time_mid"
+            mt_rand(0, 0xffff),
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand(0, 0x0fff) | 0x4000,
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand(0, 0x3fff) | 0x8000,
+            // 48 bits for "node"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        );
+    }
+    public function validateWebHookCall($data)
+    {
+        $mac_provided = $data['mac'];  // Get the MAC from the POST data
+        unset($data['mac']);  // Remove the MAC key from the data.
+        $ver = explode('.', phpversion());
+        $major = (int)$ver[0];
+        $minor = (int)$ver[1];
+        if ($major >= 5 and $minor >= 4) {
+            ksort($data, SORT_STRING | SORT_FLAG_CASE);
+        } else {
+            uksort($data, 'strcasecmp');
+        }
+// You can get the 'salt' from Instamojo's developers page(make sure to log in first): https://www.instamojo.com/developers
+// Pass the 'salt' without <>
+        $mac_calculated = hash_hmac("sha1", implode("|", $data), $this->salt);
+//    echo "Given hash: " . $mac_provided . "\n";
+//    echo "Calculated hash: " . $mac_calculated . "\n";
+        return $mac_provided == $mac_calculated;
+    }
+    public function NewTransaction($params)
+    {
+//    echo "New transaction for " . $params["email"];
+        $txn = $this->NewTransactionId();
+//    echo "New transaction id " . $txn;
+        $token = $this->getAccessToken();
+        $paymentRequest = $this->createPaymentRequest($params, $token);
+        if (!isset($paymentRequest->id)) {
+            throw new \Exception(json_encode($paymentRequest));
+        }
+        $order = $this->createOrder($paymentRequest->id, $params["buyer_name"], $params["phone"], $token);
+        return array(
+            "transaction_id" => $txn,
+            "payment_request" => $paymentRequest,
+            "order" => $order,
+            "token" => $token,
+        );
+    }
+    private function NewTransactionId()
+    {
+        return $this->gen_uuid();
+    }
+    private function createPaymentRequest($params, $token)
+    {
+        $curl = curl_init("https://" . $this->env . ".instamojo.com/v2/payment_requests/");
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            "Authorization: Bearer " . $token
+        ));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, rawurldecode(http_build_query($params)));
+        $json = json_decode(curl_exec($curl));
+        if (isset($json->success) && !$json->success) {
+            echo "Error: " . $json->message;
+            throw new \Exception("Error: " . $json->message);
+        }
+        return $json;
+    }
+    private function createOrder($paymentRequestId, $name, $phone, $token)
+    {
+        $curl = curl_init("https://" . $this->env . ".instamojo.com/v2/gateway/orders/payment-request/");
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            "Authorization: Bearer " . $token
+        ));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, rawurldecode(http_build_query(array(
+            'id' => $paymentRequestId,
+        ))));
+        $json = json_decode(curl_exec($curl));
+        if (isset($json->success) && !$json->success) {
+            echo "Error: " . $json->message;
+            throw new \Exception("Error: " . $json->message);
+        }
+        return $json;
+    }
+}
+
+
+$exp_data = explode("XXX",$_GET["purpose"]);
+if(count($exp_data) == 1){
+    $exp_data = explode("*",$_GET["purpose"]);
+}
+$thin_app_id = @$exp_data[0];
+
+if(!empty($thin_app_id)){
+    $label = @$exp_data[1];
+    if(strtoupper($label) == "FEATURE" || strtoupper($label) == "SMSBUY" || strtoupper($label) == "CLOUD" || strtoupper($label) == "SUBSCRIPTION"){
+        $client = new InstamojoClient(apiKey, apiSecret, salt, "api");
+    }else{
+        $credential = Custom::get_instamojo_credential($thin_app_id);
+        if($credential){
+            $apiKey = $credential['instamojo_api_key'];
+            $apiSecret = $credential['instamojo_api_secret'];
+            $salt = $credential['instamojo_salt'];
+            if(!empty($apiKey) && !empty($apiSecret) && !empty($salt)){
+                $client = new InstamojoClient($apiKey, $apiSecret, $salt, "api");
+            }else{
+                $client = new InstamojoClient(apiKey, apiSecret, salt, "api");
+            }
+        }else{
+            $client = new InstamojoClient(apiKey, apiSecret, salt, "api");
+        }
+    }
+
+}else{
+    $client = new InstamojoClient(apiKey, apiSecret, salt, "api");
+}
+
+
+$client_type = $_GET["client_type"];
+
+$params = array(
+    'buyer_name' => $_GET["name"],
+    'email' => $_GET["email"],
+    'amount' => $_GET["amount"],
+    'phone' => $_GET["phone"],
+    'purpose' => $_GET["purpose"],
+    'redirect_url' => $redirectUrl[$client_type],
+    'webhook' => notifyUrl,
+);
+
+echo json_encode($client->NewTransaction($params));

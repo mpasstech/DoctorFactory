@@ -1,0 +1,499 @@
+
+.app_header{
+    padding: 15px 0px;
+    background: #225fbccc;
+    color: #fff;
+}
+body{
+    background: #f8f8f8 !important;
+    height: 100%;
+    padding: 2px 5px;
+}
+.main_section{
+    background: #fff !important;
+    width: 100%;
+    height: 100%;
+}
+.logo_img{
+    float: left;
+    position: absolute;
+    left: 30;
+
+}
+.time{
+    position: relative;
+    float: right;
+    width: 20%;
+    right: 0;
+    top: 0;
+}
+.doctor_image{
+    float: left;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    display: flex;
+    clear: both;
+    margin-left: 14px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    top: 7;
+}
+.app_name{
+    border: 1px solid #228212;
+    padding: 8px;
+    width: 25%;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 22px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #228212;
+}
+.doctor_part_inner{
+    float: left;
+}
+.doctor_part_inner img{
+    width: 3rem;
+    height: 3rem;
+    margin: 0px 0px;
+    border: 2px solid #fff;
+}
+.doctor_part{
+    padding: 0px;
+    border-bottom: 6px solid rgb(140, 33, 33);
+}
+.doc_img_div{
+    width: 10%;
+    text-align: center;
+
+}
+.doc_name_div{
+    width:88%;
+    padding: 4px 0px;
+}
+.doc_time_div{
+    text-align: center;
+    width: 100%;
+    padding: 0px 0px;
+
+}
+.doc_time_div label{
+    font-size: 10rem;
+    color: #555555;
+    margin: 0px 0px;
+    border-radius: 0px;
+    border-bottom: none !important;
+    text-transform: capitalize;
+    width: 100%;
+    text-align: center;
+
+}.doc_time_div span img{
+     width: 39px;
+     float: right;
+     margin: 0px 8px;
+     position: relative;
+
+ }.doc_time_div label span{
+      font-size: 28px;
+      width: 100%;
+      display: block;
+      color:#ff0101;
+
+  }
+.doctor_part{
+    width: 100%;
+    float: left;
+    position: relative;
+    height: 60px;
+    margin-top: 5px;
+}
+.tracker_title{
+    position: relative;
+    width: 100%;
+    display: block;
+    height: 60px;
+    background: #FE670E;
+    float: left;
+}
+.token_lbl{
+    position: relative;
+    width: 50%;
+    float: left;
+    border: none;
+    height: 100%;
+    background: #FE670E;
+    text-align: center;
+    font-size: 50px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0px 20px;
+}
+.pre_title_wraper{
+    text-align: left;
+}
+.next_title_wraper{
+    text-align: right;
+}
+.tracker_title_bg{
+    float: left;
+    height: 100%;
+    margin-left: -32px;
+}
+.detail_div{
+    float: left;
+
+}
+.patient_detail_div{
+    width: 0%;
+    display: none;
+} .token_detail_div{
+      width: 100%;
+  }
+.detail_inner_div ul{
+    list-style: none;
+    width: 100%;
+    float: left;
+
+}
+.detail_inner_div ul li{
+    float: left;
+}
+.icon_div img{
+    height: 90px;
+
+}
+.icon_div, .name_value_div{
+    float: left;
+}
+.lbl{
+    float: left;
+    width: 80%;
+    border: 2px solid;
+    border-radius: 43px;
+}
+.patient_div{
+    border-color:#E04622;
+}.date_div{
+     border-color:#1C8ADB;
+ }.time_div{
+      border-color:#248787;
+  }
+.name_value_div label{
+    width: 100%;
+    padding: 0px 15px;
+    font-size: 25px;
+    margin: 0px !important;
+}
+.name_value_div span{
+    width: 100%;
+    padding: 0px 15px;
+    font-size: 32px;
+    font-weight:600;
+}
+.doc_img{
+    height: 120px;
+    width :120px;
+    border-radius: 60px;
+}
+.token{
+    float: left;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 33%;
+
+
+
+}
+.prev_div, .next_div{
+
+    width:  17%;
+    display: none;
+
+}
+
+
+.current_div{
+
+    width: 30%;
+    margin: 0 10%;
+
+    text-align: center;
+
+}
+.current_div label{
+    font-size: 10px; !important;
+
+}
+.token .token_number{
+    margin-top: -327px;
+    text-align: center;
+    font-size: 160px;
+    font-weight: 500;
+}
+.token_detail_div{
+
+}
+.token p{
+    text-align: center;
+    background: #FE670E;
+    color: #fff;
+    padding: 0px 10px;
+    width: 76%;
+    border-radius: 34px;
+    position: relative;
+    font-size: 24px;
+    margin: 59px auto 0px auto;
+
+    font-weight: 600;
+
+}
+
+
+.bg_image{
+    width: 100%;
+}
+
+.prev_div p, .next_div p{
+    font-size:30px;
+}
+.shedow_div{
+
+    width: 14%;
+    height: 100%;
+    marging-left:-20px;
+    /* border: 1px solid; */
+    position: absolute;
+    background: #cff7f229;
+    transform: rotate(-35deg);
+
+}
+
+.app_title{
+    background: rgb(0, 126, 255);
+    text-align: right;
+    float: right;
+    width: 23%;
+    position: absolute;
+    padding: 9px 6px;
+    color: #48536b;
+    top: 1px;
+    border-radius: 60px 0px 0px 60px;
+    color: #fff;
+    font-size: 23px;
+    right: 0;
+}
+.app_title img{
+    width: 60px;
+    height: 60px;
+    float: left;
+    border: 1px solid #fff;
+    border-radius: 40px;
+}
+
+
+#go-button{position: absolute;
+    position: absolute;
+    position: absolute;
+    top: 83px;
+    float: right;
+    z-index: 9999999;
+    right: 0;
+    height: 40px;
+    width: 40px;
+
+    border: 1px solid;
+    border-radius: 6px 0px 0px 6px;
+}
+.patient_name {
+    float: left;
+    font-size: 36px !important;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.room_number{
+    float: right;
+    position: absolute;
+    right: 0px;
+    width: 23%;
+    font-weight: 600;
+    display: inline-block;
+    height: 100%;
+    padding: 10px 22px;
+    font-size: 30px;
+    text-align: center;
+
+}
+.doctor_box{
+    color:#090219;
+    background: linear-gradient(to bottom, #c778fb 0%,#f7f3ff 85%);
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+.doctor_patient_list{
+    margin: 0;
+    padding: 0px;
+    width: 100%;
+    display: block;
+    float: left;
+}
+.doctor_patient_list li {
+    display: block;
+    width: 100%;
+    padding: 20px 0px;
+    font-weight: 600;
+    float: left;
+    border-bottom: 1px solid #fff;
+}
+
+.doctor_patient_list .serial_no,
+.doctor_patient_list .patient_box,
+.doctor_patient_list .time_box,
+.doctor_patient_list .token_box{
+    font-size: 3.5rem;
+    float: left;
+    color: #27053e;
+    font-weight: 600;
+}
+.doctor_patient_list .header div{
+    font-size: 2.0em !important;
+}
+
+.doctor_patient_list .serial_no{
+    width: 10%;
+    text-align: center;
+
+}
+.doctor_patient_list .patient_box{
+    width: 60%;
+    padding-left: 0.5rem;
+    font-size: 4rem !important;
+}
+.doctor_patient_list .time_box{
+    width: 20%;
+    text-align: left;
+}
+
+.doctor_patient_list .token_box{
+    width: 18%;
+    text-align: right;
+
+}
+
+
+.header_title{
+    text-align: center;
+}
+
+.doctor_name{
+    display: block;
+    font-size: 35px;
+    color: #141415;
+
+}
+.header div{
+    color: rgb(140, 33, 33) !important;
+}
+.department_span{
+    font-size: 37px;
+    display: block;
+    text-align: left;
+
+}
+.current_span{
+    float: right;
+    font-size: 28px;
+    padding: 12px 0px;
+    color: #ff0302;
+}
+.current_box{
+
+    display: block;
+    float: left;
+    width: 100%;
+    color: #fff;
+    background: rebeccapurple;
+    padding: 2% 0px;
+
+}
+.current_box .box{
+    float: left;
+    width: 50%;
+    display: block;
+    margin: 0px;
+    overflow: hidden;
+
+
+}
+
+.current_box .box span{
+    width: 100%;
+    display: block;
+    text-align: right;
+    font-size: 5.4rem;
+
+}
+.current_box .box label{
+    font-size: 2rem;
+    width: 13%;
+    display: block;
+    text-align: left;
+    float: left;
+
+
+ }
+.blink{
+    color: red !important;
+}
+.no_patient{
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-size: 60px;
+    margin: 73px 0px !important;
+    position: relative;
+    float: left;
+}
+.check_in_type_lbl{
+    font-size: 2.3rem;
+    float: right;
+    text-align: center;
+    width: 30%;
+    background: yellow;
+    padding: 15px 10px;
+    border-radius: 0px 25px 25px 0px;
+    text-transform: uppercase;
+    margin-right: 15px;
+}
+
+.powered_by {
+    width: 20%;
+    margin: 0 40%;
+    position: absolute;
+    background-color: #FFF;
+    border-radius: 36px;
+    top: 2px;
+    overflow: hidden;
+    padding: 0px 9px;
+    z-index: 1;
+}
+.powered_by span{
+    padding: 16px 0px;
+    display: block;
+    width: auto;
+    float: left;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 600;
+}
+.powered_by img{
+    float: right;
+    position: relative;
+}
+/*body{overflow: hidden;}*/

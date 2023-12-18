@@ -1,0 +1,752 @@
+<html>
+<head>
+    <title>Appointment Tracker</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    <script src="<?php echo Router::url('/js/jquery.js')?>"></script>
+    <script src="<?php echo Router::url('/js/bootstrap.min.js')?>"></script>
+    <link rel="stylesheet" href="<?php echo Router::url('/css/bootstrap.min.css')?>" />
+    <link rel="stylesheet" href="<?php echo Router::url('/css/font-awesome.min.css')?>" />
+
+    <?php echo $this->Html->css(array('tracker.css')); ?>
+    <style>
+        /* html, body {margin: 0; height: 100%; overflow: hidden}*/
+
+        #settingButton{
+
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 7px;
+        }
+        .play_voice{
+            width: 50px;
+            height: 50px;
+            background: red;
+            padding: 5px;
+            float: left;
+            margin: 2px 4px;
+            border-radius: 6px;
+        }
+        .patient_token_span{
+            background: #fff;
+            font-size: 2.5rem;
+            padding: 7px 0%;
+            border-radius: 17%;
+            width: 40px;
+            height: 40px;
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .current_token_box{
+            padding: 0.5rem 0.3rem;
+            background: #ecff00;
+        }
+        .overlay_box_div {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            display: block;
+            background: #fff;
+            z-index: 99999;
+            opacity: 1;
+            width: 100%;
+            display: none;
+        }
+        .overlay_box_div .emergency {
+            color: red;
+            margin-top: 5%;
+            font-size: 20rem;
+            width: 100%;
+            text-align: center;
+            opacity: 1;
+        }
+        .overlay_box_div .patient_name {
+            text-align: center;
+            width: 100%;
+            font-size: 8rem;
+        }
+        .blink {
+            margin: 15% auto;
+            display: block;
+            width: 100%;
+            float: left;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        .note_lbl {
+
+            position: absolute;
+            bottom: 0;
+            color: #fff;
+            font-size: 33px;
+
+            width: 100%;
+        }
+        .active_box{
+            display: block !important;
+        }
+        .mu-hero-overlay {
+            height: 100%;
+
+        }
+        #go-button{position: absolute;
+            position: absolute;
+            position: absolute;
+            top: 64px;
+            float: right;
+            z-index: 9999999;
+            right: 0;
+            height: 40px;
+            width: 45px;
+            cursor: pointer;
+
+        }
+        #go-button img{
+            border: 1px solid;
+            border-radius: 6px 0px 0px 6px;
+        }
+        #go-button span{
+            font-size: 9px;
+            color: #fff;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        .append_html li{
+            list-style: none;
+            float: left;
+            height: 150px;
+            padding: 10px;
+
+        }
+        .append_html li:first-child, .append_html li:nth-child(2){
+            padding: 2% 10px ;
+        }
+
+        .append_html ul{
+            width: 98%;
+            padding: 0;
+            margin: 10px;
+            float: left;
+        }
+        .heading_bar{
+            font-size: 6rem; text-align: center;width: 100%;background: blue;color: #fff;
+        }
+        .doctor_profile{
+            border:1px solid #fff; padding: 2px; border-radius: 50%; width: 100px; height: 100px;
+        }
+        .service_name{
+            font-size:3.5rem; padding: 5px; color: #fff; text-align: left;
+        }
+        .token_heading{
+            width: 100%;text-align: center;color:#fff; font-size: 3.0rem;
+        }
+        .token_number{
+            color: #fff; width: 100%;text-align: center;font-size: 5.5rem;
+        }
+
+        @media only screen and (max-width: 500px) {
+            .mu-logo{
+                font-size: 18px;
+            }
+            #mu-event-counter, .mu-event-counter-area{
+                width: 100%;
+            }
+            .mu-event-counter-block{
+                width: 170px;
+                height: 170px;
+                margin: 0 auto;
+            }
+        }
+        @media (min-width: 1000px) and (max-width: 1200px) and (orientation: landscape) {
+
+            body {
+                background: red !important;
+            }
+
+
+        }
+        @media (min-width: 1000px) and (max-width: 1200px) and (min-height: 1500px)  and (max-height: 2000px) {
+
+            .mu-event-counter-area{
+                margin-top: 30%;
+            }
+            .container {
+
+                width: 100%;
+
+            }
+            #go-button {
+                display: none;
+            }
+            .mu-event-counter-block {
+                width: 80% !important;
+                height: 650px;
+                margin: 0 auto;
+            }
+            .mu-event-counter-block{
+                margin: 0 11%;
+            }
+            #mu-event-counter{
+                width: 100%;
+            }
+            .mu-hero-featured-content {
+
+                display: inline;
+                float: right;
+                margin-top: -400px;
+                text-align: center;
+                width: 100%;
+                padding-top: 30px;
+
+            }
+            .mu-event-counter-block span {
+
+                display: block;
+                font-size: 300px;
+                font-weight: 700;
+                padding-top: 300px;
+                line-height: 40px;
+
+            }
+            .mu-hero-featured-content {
+                margin:  0;
+            }
+
+
+        }
+        @media (max-width: 480px){
+            .mu-event-counter-block span {
+                font-size: 65px !important;
+            }
+
+            .mu-event-counter-area, .mu-hero-featured-content {
+                width: 100%;
+            }
+            .blink{
+                font-size: 1.2rem !important;
+            }
+        }
+        @media (max-width: 360px){
+
+
+        }
+        @media (min-width: 320px) and (max-width: 480px) {
+            .heading_bar{
+                font-size: 3.5rem;
+                padding: 15px;
+            }
+            .blink{
+                font-size: 1.2rem !important;
+            }
+
+            .append_html li:first-child, .append_html li:nth-child(2){
+                padding: 4% 10px ;
+            }
+
+
+
+
+            .doctor_profile{
+                width: 60px;
+                height: 60px;
+            }
+
+            .service_name{
+                font-size: 2rem;
+            }
+            .token_heading{
+                font-size: 2.2rem;
+                padding: 0;
+                margin: 0;
+            }
+            .token_number{
+                font-size: 3.5rem;
+            }
+            .append_html li{
+                height: 90px;
+            }
+            .append_html ul{
+                margin: 5px;
+            }
+            #go-button{
+                display: none;
+            }
+        }
+
+        @media (min-width: 576px) and (max-width: 800px){
+            .blink{
+                font-size: 1.4rem !important;
+            }
+        }
+
+    body{
+        background: #fff;
+    }
+        header{
+            background: #fff;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+
+
+<header id="mu-hero" class="" role="banner">
+
+    <div class="overlay_box_div" >
+        <lable class="break_doctor"></lable>
+        <h2 class="emergency">EMERGENCY</h2>
+        <h3 class="emer_patient_name"></h3>
+    </div>
+
+
+    <div id="go-button">
+        <img src="<?php echo Router::url('/images/tracker/large_screen.png',true);?>" />
+        <span>Maximize</span>
+    </div>
+    <div class="container" style="width: 100% !important;">
+        <div class="row" style="display: <?php echo ($ShowHeader=='no')?'none':''; ?>">
+
+                <table class="heading_bar" style="width: 100%;">
+                    <tr>
+                        <td style="text-align: center;"><img class="play_voice" src="<?php echo Router::url('/img/sound-off.png',true);?>" /></td>
+                        <td><h1>Live Tracker</h1></td>
+                        <td style="text-align: center;font-size: 4rem;"><i class="fa fa-gear" id="settingButton"></i></td>
+                    </tr>
+                </table>
+
+
+
+
+        </div>
+
+        <?php if(!empty($patientToken)){ if($patientToken['sub_token']=="NO"){ ?>
+            <div class="row current_token_box">
+                <div class="col-md-12" style="padding: 0 5px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td colspan="3"><h3 style="width: 100%;text-align: center;">Your Token</h3></td>
+
+                    </tr>
+                    <tr>
+                        <?php
+                            $label = ($patientToken['department_category_id']==32)?"Service":"Doctor";
+                            $token = $patientToken['queue_number'];
+                            if($patientToken['sub_token']=="YES"){
+                                $token = !empty($patientToken['remark'])?$patientToken['remark']:"Emergency";
+                            }
+                        ?>
+                        <th><?php echo $label; ?></th>
+                        <td><?php echo $patientToken['doctor_name']; ?></td>
+                        <td rowspan="3"  ><span class="patient_token_span"><?php echo $token; ?></span></td>
+                    </tr>
+
+                    <tr>
+                        <th>Patient</th>
+                        <td>
+                            <?php echo $patientToken['patient_name']; ?>
+
+
+                        </td>
+                    </tr>
+
+                    <?php if($ShowHeader=='no'){ ?>
+                        <tr>
+                            <td colspan="3" style="text-align: center;">
+                                <button class="btn btn-xm btn-danger play_voice"  style="width: 42%;padding: 0;" >Allow Tracker Voice</button>
+                            </td>
+                        </tr>
+
+                    <?php } ?>
+
+                </table>
+                </div>
+            </div>
+        <?php }} ?>
+
+        <div class="row append_html">
+            <h1 style="text-align: center;"> Please wait... </h1>
+        </div>
+
+
+        <?php if(!empty($thinapp_data['tune_tracker_media'])){ ?>
+            <marquee style="padding: 1.5rem 0; position: relative;display: block;width: 100%;"><h1 style="font-size: 5rem;"><?php echo $thinapp_data['tune_tracker_media']; ?></h1></marquee>
+        <?php } ?>
+    </div>
+</header>
+
+
+<div class="modal fade" id="settingModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Tracker Setting</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <th>S.NO</th>
+                        <th>Doctor / Service Name</th>
+                        <th>Show on tracker</th>
+                    </tr>
+
+                    <?php if(!empty($tmp_list)){ $counter=1; foreach ($tmp_list as $doctor_id =>$doctor_name){  ?>
+                    <tr>
+                        <td><?php echo $counter++; ?></td>
+                        <td><?php echo $doctor_name; ?></td>
+                        <td><input type="checkbox" class="doc_checkbox <?php echo $doctor_id;?>"  data-id="<?php echo $doctor_id; ?>" id="checkbox_<?php echo $doctor_id; ?>" /></td>
+                    </tr>
+                    <?php }} ?>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="modalSaveBtn" >Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+
+var audioRunning = false;
+
+
+        var baseurl = "<?php echo Router::url('/',true); ?>";
+        var settingCookes = "doctor_setting";
+
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+
+        $(document).on("click",".play_voice",function(evt){
+            const ks = new Audio(baseurl+'/queue_tracker_voices/no_sound.mp3');
+            let userinteraction = 0;
+            if(userinteraction) return;
+            userinteraction++;
+            ks.play()
+            $(this).hide();
+        })
+
+        $(document).on("click","#settingButton",function(evt){
+            $(".doc_checkbox").prop("checked",true);
+            if(getCookie(settingCookes)){
+                var setting = JSON.parse(getCookie(settingCookes));
+                $.each(setting,function(index,value){
+                    $("#checkbox_"+value.id).prop("checked",value.checked);
+                });
+            }
+            $("#settingModal").modal("show");
+        });
+
+        var settingArray =[];
+        $(document).on("click","#modalSaveBtn",function(evt){
+            $(".doc_checkbox").each(function(){
+                var id = $(this).attr('data-id');
+                var checked = $(this).is(':checked');
+                settingArray.push({"id":id,"checked":checked});
+            });
+            setCookie(settingCookes,JSON.stringify(settingArray),30000);
+            window.location.reload();
+            $("#settingModal").modal("hide");
+        });
+
+        function checkCurrentDate(){
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            return  mm + '/' + dd + '/' + yyyy;
+        }
+        var currentDate = checkCurrentDate();
+        setInterval(function () {
+            if(currentDate!=checkCurrentDate()){
+               // window.location.reload();
+            }
+        },30000);
+
+
+
+
+        blink_interval = setInterval(blink_text, 1000);
+        function blink_text() {
+            $('.blink').fadeOut(500);
+            $('.blink').fadeIn(500);
+        }
+
+
+
+        var refresh_list_seconds = "8000";
+        load_list();
+        var change_div = 3000;
+        var interval = setInterval(function () {
+            if(process_running===false){
+                load_list();
+            }
+        },refresh_list_seconds);
+        var process_running = false;
+
+        Object.size = function(obj) {
+            var size = 0, key;
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) size++;
+            }
+            return size;
+        };
+
+
+        function check_emergency_appointment(current_obj){
+            var doctor_id = $(current_obj).attr('id')+"";
+            var doctor_name = $(current_obj).find('.mu-logo').text();
+            var object_data = JSON.parse($('body').data('key'));
+            if(object_data.hasOwnProperty(doctor_id)){
+
+                var data = object_data[doctor_id];
+                if(data.patient_name){
+
+                    $(".break_doctor").html(doctor_name);
+                    if(data.flag=="CUSTOM"){
+                        $(".emergency").hide();
+                        $(".overlay_box_div .emer_patient_name").html(data.patient_name);
+                    }else{
+                        $(".emergency").show();
+
+                        $(".overlay_box_div .emer_patient_name").html("Patient - "+data.patient_name);
+                    }
+                    $(".overlay_box_div").show();
+                }else{
+                    $(".overlay_box_div .emer_patient_name").html("");
+                    $(".overlay_box_div").hide();
+                }
+            }else{
+                $(".overlay_box_div .emer_patient_name").html("");
+                $(".overlay_box_div").hide();
+            }
+        }
+
+        var interIneer;
+        var screenLoad = false;
+        var index = 0;
+        function load_list(){
+        
+        if(true){
+        
+            var t = "<?php echo @($this->request->query['t']); ?>";
+            var doctor_id_string = "<?php echo $doctor_ids; ?>";
+            var logo = "<?php echo $thinapp_data['logo']; ?>";
+
+		$.ajax({
+                type:'POST',
+                url: baseurl+"tracker/load_fortis_tracker",
+                data:{
+                    t:t,doctor_id_string:doctor_id_string,logo:logo
+                },
+                beforeSend:function(){
+
+                    index =0;
+                    process_running = true;
+
+                },
+                success:function(data){
+                    $(".append_html").html(data);
+                    var audioArray=[];
+                    var audioFileCounter=0;
+
+                    var setting  = getCookie(settingCookes);
+                    if(setting){
+                        setting = JSON.parse(setting);
+                    }
+
+                    $(".token_li").each(function (index,value) {
+                        $("#"+doctor_id).closest('ul').removeClass("blink");
+                        var doctor_id = $(this).attr('id');
+                        var obj;
+                        if(setting!=""){
+                            obj = setting.find(o => o.id === doctor_id);
+                        }
+
+                        if(setting=="" || obj.checked==true){
+                            $(this).closest("ul").show();
+                            var currentVoice = $(this).attr('data-voice');
+                            var lastVoice = $("body").data(doctor_id);
+                            if(lastVoice != currentVoice){
+                                $("body").data(doctor_id,currentVoice);
+                                if(currentVoice && screenLoad===true){
+                                    $("#"+doctor_id).closest('ul').addClass("blink");
+                                    audioArray[audioFileCounter] = new Audio(baseurl+"queue_tracker_voices/"+currentVoice);
+                                    audioFileCounter++;
+                                }
+
+                            }
+                        }else{
+                            $(this).closest("ul").hide();
+                        }
+
+                    });
+
+                    /* PLAY AGIN CODE START HERE */
+                    var againVoiceString = $("#playAgainVoice").attr('data-voice');
+                    if(againVoiceString){
+                        var tmp = againVoiceString.split(",");
+                        $.each(tmp,function(index,currentVoice){
+
+                           // $("[data-voice='"+currentVoice+"']").closest('ul').addClass("blink");
+                           // audioArray[audioFileCounter] = new Audio(baseurl+"queue_tracker_voices/"+currentVoice);
+                            //audioFileCounter++;
+                        })
+                    }
+                    /* PLAY AGIN CODE END HERE */
+
+                    if(audioArray.length > 0){
+                        play_sound_queue(audioArray);
+                    }
+
+                    screenLoad = true;
+                    process_running = false;
+                },
+                error: function(data){
+                    process_running =false;
+                }
+            });
+
+}
+
+        }
+
+
+
+
+
+
+
+       
+        function play(audio, callback) {
+        	console.log(audio.src);
+            audioRunning = true;
+            audio.play();
+            if(callback){
+                audio.addEventListener('ended', callback);
+            }
+
+        }
+
+        function play_sound_queue(sounds) {
+            var index = 0;
+            function recursive_play() {
+                if (index + 1 === sounds.length) {
+                    play(sounds[index], function () {
+                        audioRunning = false;
+                    });
+                } else {
+                    play(sounds[index], function() {
+                        index++;
+                        setTimeout(function () {
+                            audioRunning = false;
+                            recursive_play();
+                        },1000);
+
+                    });
+                }
+            }
+            recursive_play();
+        }
+
+
+
+
+
+        function GoInFullscreen(element) {
+            if(element.requestFullscreen)
+                element.requestFullscreen();
+            else if(element.mozRequestFullScreen)
+                element.mozRequestFullScreen();
+            else if(element.webkitRequestFullscreen)
+                element.webkitRequestFullscreen();
+            else if(element.msRequestFullscreen)
+                element.msRequestFullscreen();
+        }
+        function GoOutFullscreen() {
+            if(document.exitFullscreen)
+                document.exitFullscreen();
+            else if(document.mozCancelFullScreen)
+                document.mozCancelFullScreen();
+            else if(document.webkitExitFullscreen)
+                document.webkitExitFullscreen();
+            else if(document.msExitFullscreen)
+                document.msExitFullscreen();
+        }
+        function IsFullScreenCurrently() {
+            var full_screen_element = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || null;
+
+            // If no element is in full-screen
+            if(full_screen_element === null)
+                return false;
+            else
+                return true;
+        }
+        $("#go-button").on('click', function() {
+
+            if(IsFullScreenCurrently())
+                GoOutFullscreen();
+            else
+                GoInFullscreen($("#mu-hero").get(0));
+        });
+        $(document).on('fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange', function() {
+            if(IsFullScreenCurrently()) {
+                $("#go-button").attr('src',image_path+"small_screen.png");
+                $("#go-button span").html('Minimize');
+            }
+            else {
+                $("#go-button").attr('src',image_path+"large_screen.png");
+                $("#go-button span").html('Maximize');
+            }
+        });
+
+
+
+    });
+</script>
+

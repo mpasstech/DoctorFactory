@@ -1,0 +1,65 @@
+body{
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+.main_container{
+	width:100%;
+	min-width:100%;
+}
+.top-heading {
+    width: 100%;
+min-width: 100%;
+background-color: #2BB0EF;
+text-align: center;
+padding-top: 12px;
+padding-bottom: 12px;
+font-size: 2em;
+font-weight: bold;
+color: #FFFFFF;
+line-height: 1.2em;
+}
+
+.content-container{
+	width:96%;
+	min-width:96%;
+	padding:2%;
+}
+
+.doctor-info-row{
+	width: 100%;
+	min-width: 100%;
+	display: inline-flex;
+}
+.doctor-info{
+	width:50%;
+}
+.doctor-logo{
+	width: 50%;
+	float: right;
+}
+.doctor-name {
+    font-weight: bold;
+}
+.doctor-logo-img {
+    padding: 3%;
+    float: right;
+	width: 30%;
+}
+.certificate-footer{
+	width:100%;
+}
+.doctor-signature-container{
+	width:100%;
+	text-align:right;
+}
+.doctor-signature-text{
+		font-weight:bold;
+}
+.border-bottom{
+    border-bottom: 1px solid darkgray;
+    padding: 0 0 8px 0;
+    margin: 0 0 8px 0;
+}
+input{
+    display:none;
+}

@@ -1,0 +1,8 @@
+# Allows all robots
+
+User-agent: *
+
+Disallow: 
+
+
+Sitemap: http://www.mbroadcast.in/sitemap.xml
