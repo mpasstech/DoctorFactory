@@ -19,6 +19,8 @@ include_once implode("/",$constant_path)."/constant.php";
 include_once LOCAL_PATH . "app/Vendor/aws/aws-autoloader.php";
 include_once LOCAL_PATH . "app/webroot/paytm/Checksum/PaytmChecksum.php";
 
+
+
 /* NODE SOCKET IO START */
 include_once LOCAL_PATH . "app/Vendor/elephant.io/vendor/autoload.php";
 use ElephantIO\Client;
@@ -16478,25 +16480,13 @@ $query = "select acss.id as appointment_id, acss.queue_number as token_number,ac
         
             $url = "http://ivrapi.indiantts.co.in/tts?type=indiantts&text=$voiceText&api_key=f07989c0-cc36-11ec-a24c-514a8fe2a4ec&user_id=145392&action=play&&numeric=$numeric&&lang=hi_female_v1&&ver=2";
 
-        
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(),
-            ));
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-            curl_close($curl);
-            if (!$err) {
-                if (file_put_contents($filePath, $response) !== false) {
+            $content = file_get_contents($url);
+            if ($content === false) {} else {
+                if (file_put_contents($filePath, $content) !== false) {
                     $add_voice_file = true;
                 }
             }
+
         } else {
             $add_voice_file = true;
         }

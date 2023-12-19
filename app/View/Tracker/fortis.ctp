@@ -991,8 +991,14 @@
                     obj = setting.find(o => o.id === doctor_id);
                 }
 
-                var token = (data.token=='0' && is_custom_app=="YES")?'Open':data.token;
-                var pat_name = (data.patient_name.search("Patient") < 0)?data.patient_name:"";
+                var pat_name = ""; 
+                try {
+                    pat_name = (data.patient_name && data.patient_name.search("Patient") < 0) ? data.patient_name : "";
+                } catch (error) {
+                    console.error("An error occurred:", error.message);
+                }
+
+                
 
 
                 if(setting=="" || (obj && obj.checked==true)){

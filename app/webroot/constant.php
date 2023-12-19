@@ -39,16 +39,16 @@ define('MBROADCAST_APP_ID',1);
 define('DEFAULT_ROW_FETCH',50);
 define('MAX_LIMIT','1000');
 $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'http://' : 'http://';
-define('SITE_PATH',$protocol.$_SERVER['SERVER_NAME'].'/php_factory/');
+define('SITE_PATH',$protocol.$_SERVER['SERVER_NAME'].'/DoctorFactory/');
 
 
 
 
 define('FIREBASE_SERVER_PATH',SITE_PATH.'chat/');
-define('FOLDER_PATH',$protocol.$_SERVER['SERVER_NAME'].'/php_factory/folder/');
-define('FOLDER_STATIC_PATH',$protocol.$_SERVER['SERVER_NAME'].'/php_factory/folder/folder_share_static/');
-define('FILE_STATIC_PATH',$protocol.$_SERVER['SERVER_NAME'].'/php_factory/folder/file_share_static/');
-define('LOCAL_PATH',$_SERVER['DOCUMENT_ROOT'].'/php_factory/');
+define('FOLDER_PATH',$protocol.$_SERVER['SERVER_NAME'].'/DoctorFactory/folder/');
+define('FOLDER_STATIC_PATH',$protocol.$_SERVER['SERVER_NAME'].'/DoctorFactory/folder/folder_share_static/');
+define('FILE_STATIC_PATH',$protocol.$_SERVER['SERVER_NAME'].'/DoctorFactory/folder/file_share_static/');
+define('LOCAL_PATH',$_SERVER['DOCUMENT_ROOT'].'/DoctorFactory/');
 define('APP_PAGINATION_LIMIT',15);
 define('WEB_PAGINATION_LIMIT',10);
 define('TOTAL_PROMOTIONAL_SMS','1000');
@@ -149,7 +149,7 @@ define('DEFAULT_PAYTM',1003);
 define('DEFAULT_NEFT',1004);
 define('DEFAULT_DEBIT_CARD',1005);
 define('DEFAULT_CREDIT_CARD',1006);
-define('SHORT_URL','https://localhost/php_factory/l/');
+define('SHORT_URL','https://localhost/DoctorFactory/l/');
 define('TWILIO_VIDEO_RATE','.80');
 define('TELEMEDICINE_CONVENCE_RATE','15');
 define('TELEMEDICINE_GST_RATE','18');

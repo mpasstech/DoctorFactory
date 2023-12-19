@@ -68,7 +68,7 @@ curl_setopt($ch, CURLOPT_USERPWD, $ACCOUNT_SID . ":" . $TOKEN);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = json_decode(curl_exec($ch),true);
 if(!curl_errno($ch)){
-    $twilio_balance = sprintf("%01.2f", $response['balance']);;
+    $twilio_balance = sprintf("%01.2f", $response['balance']);
     if($twilio_balance){
         $currency = $response['currency'];
         $file_name ="twilio_send_sms_on";
