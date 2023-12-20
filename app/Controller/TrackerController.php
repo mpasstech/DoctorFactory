@@ -2295,7 +2295,9 @@ class TrackerController extends AppController
                             $service_name = $doctor_service_data['name'];
                             $room_number = $doctor_service_data['room_number'];
                             $service_id = $doctor_service_data['id'];
-                            $allow_add = ($doctor_service_data['department_category_id']!=32)?true:false;
+                            $id_array = array('2142', '2147', '2148', '2149', '2150', '2151', '2152', '2153', '2154');
+                            $allow_add = in_array($doctor_data["show_token_into_digital_tud"], $id_array) ? true : false;
+
                         }
                     }
                    

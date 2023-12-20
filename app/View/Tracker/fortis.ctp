@@ -27,7 +27,7 @@
 
     #font_setting li{
         list-style: none;
-        width: 25%;
+        width: 20%;
         float: left;
         text-align: center;
     }
@@ -481,7 +481,7 @@
                 display:none !important;
             }
             .token_li tr td:first-child{
-                display: none !important;
+                
             }
 
             #setting_doctor_list_box li{
@@ -535,7 +535,7 @@
             }
 
             .token_li tr td:first-child{
-                display: none !important;
+                
             }
 
             #setting_doctor_list_box li{
@@ -693,7 +693,16 @@
     <div class="container" style="width: 100% !important; padding-left: 0;padding-right: 0; float: left;display: block;">
 
 
-        <?php $col=12; $has_slider=""; if(!empty($slide_list) || !empty($mediaData)){ $has_slider="has_slider"; $col=6; } ?>
+        <?php $col=12; $has_slider=""; if(!empty($slide_list) || !empty($mediaData)){ $has_slider="has_slider"; $col=6; } 
+
+            $cookies_name = "tracker_display_".$thin_app_id;
+            $hospital_font_size = "3rem";
+            if(isset($_COOKIE[$cookies_name])){
+                $setting = json_decode($_COOKIE[$cookies_name],true);
+                $hospital_font_size=isset($setting["hospital_font_size"])?$setting["hospital_font_size"]:$hospital_font_size;
+            }
+        
+        ?>
 
         <div id="tracker_box" style="<?php if($thin_app_id==902){ echo "width:100% !important;"; } ?> padding-right: 0;padding-left: 0; height:100%;" class="col-xs-12 col-sm-12 col-md-<?php echo $col; ?> col-lg-<?php echo $col; ?> <?php echo $has_slider; ?>">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-right: 0;padding-left: 0; display: <?php echo ($ShowHeader=='no')?'none':''; ?>">
@@ -701,7 +710,7 @@
                     <tr>
                         
                         <td>
-                             <h1 style="padding:0.6rem 0.2rem;width:100%;display:block;float:left;text-align:center;margin:0;">
+                             <h1 style="font-size:<?php echo $hospital_font_size; ?>; padding:0.6rem 0.2rem;width:100%;display:block;float:left;text-align:center;margin:0;">
                              <img class="play_voice" style="position:absolute;left:0; float: left;" src="<?php echo Router::url('/img/sound-off.png',true);?>" /> 
                             <?php echo $thinapp_data['name']; ?>
                             <button  id="settingButton" style="float: right;" >
@@ -882,9 +891,9 @@
                 <h3>Font & Media Setting  <button style="float: right;" id="reset_setting_btn" class="btn btn-info" >Reset font & media setting</button></h3>
                     
                 <ul id="font_setting">
-
+                    
                     <li>
-                        <label>Room/Counter name font size  </label>
+                        <label>Room/Counter name</label>
                         <select  id="counter_name_font_size">
                             <?php for($counter=1; $counter<=8; $counter = $counter+.1 ){ ?>
                                 <option value="<?php echo $counter."rem"; ?>" > <?php echo $counter."X"; ?></option>
@@ -892,17 +901,28 @@
                         </select>
                     </li>
                     <li>
-                        <label>Token number font size</label>
+                        <label>Token number</label>
                         <select  id="token_font_size">
                         <?php for($counter=1; $counter<=8; $counter = $counter+.1 ){ ?>
                                 <option value="<?php echo $counter."rem"; ?>" > <?php echo $counter."X"; ?></option>
                             <?php } ?>
                         </select>
                     </li>
+
+
                     
                     <li>
-                        <label>Category Name font size</label>
+                        <label>Category Name</label>
                         <select  id="category_font_size">
+                        <?php for($counter=1; $counter<=8; $counter = $counter+.1 ){ ?>
+                                <option value="<?php echo $counter."rem"; ?>" > <?php echo $counter."X"; ?></option>
+                            <?php } ?>
+                        </select>
+                    </li>
+
+                    <li>
+                        <label>Hosptial Name</label>
+                        <select  id="hospital_font_size">
                         <?php for($counter=1; $counter<=8; $counter = $counter+.1 ){ ?>
                                 <option value="<?php echo $counter."rem"; ?>" > <?php echo $counter."X"; ?></option>
                             <?php } ?>
@@ -1006,7 +1026,7 @@
                         load_list();
                     }else if(data.play==true){
                         var key = "TM_"+data.doctor_id+"_"+data.token;
-                        $("#"+data.doctor_id).find(".token_number").html(token);
+                        $("#"+data.doctor_id).find(".token_number").html(data.token);
                         $("#"+data.doctor_id).find(".patient_name").html(pat_name);
                         loadUpcomingList();
                         localStorage.setItem(key,data.fileName);
@@ -1016,7 +1036,7 @@
                         loadUpcomingList();
                     }
                 }
-                if(token=="Closed"){
+                if(data.token=="Closed"){
                     $("#"+data.doctor_id).find(".token_number").addClass("closedToken");
                 }else{
                     $("#"+data.doctor_id).find(".token_number").removeClass("closedToken");
@@ -1111,13 +1131,14 @@
 
             
             if(!getCookie(fontsettingCookes)){
-                saveFontSetting("3rem","3rem","1.8rem","off");
+                saveFontSetting("3rem","3rem","1.8rem","off","3rem");
             }
             if(getCookie(fontsettingCookes)){
                 var setting = JSON.parse(getCookie(fontsettingCookes));
                 $("#counter_name_font_size").val(setting['counter_name_font_size']);
                 $("#token_font_size").val(setting['token_font_size']);
                 $("#category_font_size").val(setting['category_font_size']);
+                $("#hospital_font_size").val(setting['hospital_font_size']);
                 $("#youtube_audio").val(setting['youtube_audio']);
             }
 
@@ -1127,12 +1148,13 @@
 
 
 
-        function saveFontSetting(counter_name_font_size,token_font_size,category_font_size,youtube_audio){
+        function saveFontSetting(counter_name_font_size,token_font_size,category_font_size,youtube_audio,hospital_font_size){
             var tmp = {
                 counter_name_font_size:counter_name_font_size,
                 token_font_size:token_font_size,
                 category_font_size:category_font_size,
                 youtube_audio:youtube_audio,
+                hospital_font_size:hospital_font_size,
             }
             setCookie(fontsettingCookes,JSON.stringify(tmp),30000);
           
@@ -1171,8 +1193,9 @@
             var counter_name_font_size = $("#counter_name_font_size").val();
             var token_font_size = $("#token_font_size").val();
             var category_font_size = $("#category_font_size").val();
+            var hospital_font_size = $("#hospital_font_size").val();
             var youtube_audio = $("#youtube_audio").val();
-            saveFontSetting(counter_name_font_size,token_font_size,category_font_size,youtube_audio);
+            saveFontSetting(counter_name_font_size,token_font_size,category_font_size,youtube_audio,hospital_font_size);
 
 
             window.location.reload();
