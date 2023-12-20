@@ -4488,86 +4488,13 @@ class WebservicesFunction
     public static function test()
     {
 
-    die("MPASSCHECKIN");
-     $option = array(
-            'username' => "+918890720687",
-            'mobile' => "+918890720687",
-            'verification' => "2255",
-            'thinapp_id' => 134
-        );
-        echo $otp_sent = Custom::send_otp_test($option);
-        die;
-    
-    $counter_array=array('1'=>"one",'2'=>"two",'3'=>"three",'4'=>"four",'5'=>"five",'6'=>'six','7'=>"seven",'8'=>"eight",'9'=>'nine','0'=>'zero');
-    
-     
-                $numbersArray = str_split(202);
-                $tmp_string = array();
-                foreach ($numbersArray as $number) {
-                    $tmp_string[] = $counter_array[intval($number)];
-                }
-               echo $number = implode(" ",$tmp_string);die;
-    
-    
-    
-    
-    
-    
-    	$doctor_name ="Dr Dinesh";
-    $token_number ="8";
-    $bookingDate = "2023-12-12";
-    
-   		 $cancelWhats = "अपॉइंटमेंट टोकन निरस्त\n\nडॉक्टर का नाम  :- $doctor_name\nदिनांक   :- $bookingDate\nटोकन  :- $token_number\n\nशमा करे  डॉक्टर $doctor_name का अपॉइंटमेंट टोकन बुक नहीं हो पाया हैं ! अगर अपने टोकन फी का भुक्तान किया हैं तो  कृपया  निश्चिन्त रहिये आपको टोकन फी  सात दिनों के भीतर वापस कर दी जाएगी |\nधन्यवाद|";
-            $res = Custom::sendWhatsappSms("+918890720687",$cancelWhats,$cancelWhats);
-            
-     	die('Done');
-        
+        $res = Custom::callToPatient("+914444444444",905,132,0); die();
+
+
+
+
 
     }
-
-    public static function test_save()
-    {
-
-        $connection = ConnectionUtil::getConnection();
-        $sql = "UPDATE tests SET user_id = user_id + ?, name = ? where id = ?";
-        $stmt = $connection->prepare($sql);
-        $total_less = 1;
-        $id = 11;
-        $name = "munna";
-        $stmt->bind_param('sss', $total_less, $name, $id);
-        if ($stmt->execute()) {
-            echo "done";
-        } else {
-            echo "fail";
-        }
-        die;
-
-
-        try {
-            $connection = ConnectionUtil::getConnection();
-            $connection->autocommit(FALSE);
-            $value = "MUNNA SAINGH";
-            $sql = "INSERT INTO tests (name) VALUES (?)";
-            $stmt = $connection->prepare($sql);
-            $user_id = 1;
-            $stmt->bind_param('s', $value);
-            if ($stmt->execute()) {
-                echo $stmt->insert_id;
-                $connection->commit();
-            } else {
-                $connection->rollback();
-            }
-        } catch (Exception $e) {
-            $connection->rollback();
-        }
-
-        die;
-
-    }
-
-
-    /* api repairing =====================================*/
-
 
     public static function fun_get_subscriber_list($thin_app_id, $user_id, $limit, $offset)
     {

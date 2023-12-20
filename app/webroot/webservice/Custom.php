@@ -16879,7 +16879,7 @@ public static function getDoctorVoiceStatus($doctor_id){
     }
 
 
-	public static function callToPatient($patientMobile,$thin_app_id,$doctor_id,$appointment_id = 0){
+	public static function callToPatient($patientMobile,$thin_app_id,$doctor_id,$appointment_id = 0,$call_count_number=1){
         if($patientMobile != "+919999999999"){
             $app_id ="634635";
             $callerId = "01140845349";
@@ -16888,6 +16888,7 @@ public static function getDoctorVoiceStatus($doctor_id){
                 $callerId = "01140845349";
             }
 
+            
             if($thin_app_id==902){
                 $app_list['2154'] = "708273";
                 $app_list['2149'] = "708269";
@@ -16931,6 +16932,7 @@ public static function getDoctorVoiceStatus($doctor_id){
                 echo "cURL Error Message: $error_message\n";die;
             }
 
+               
             if ($response !== false) {
                 $responseData = json_decode($response, true);
                 if (isset($responseData['Call']['Sid'])) {
@@ -16952,6 +16954,19 @@ public static function getDoctorVoiceStatus($doctor_id){
                     $res = Custom::insertTokenLog($thin_app_id,$doctor_id,$doctor_id,"IVR_CALL");
                     curl_close($ch);
                     return true;
+                }
+                else
+                {
+
+                    if($responseData["RestException"]["Status"]==403)
+                    {
+                         $dnd_status= Custom::exotelDndActivation($patientMobile);
+                         if($dnd_status["status"]==true && $call_count_number < 2)
+                         {
+                            $call_count_number = $call_count_number+1;
+                            return Custom::callToPatient($patientMobile,$thin_app_id,$doctor_id,$appointment_id,$call_count_number);
+                        }
+                    }
                 }
             } 
         }
@@ -17034,6 +17049,81 @@ public static function get_all_booked_token_of_app($thin_app_id){
             return false;
         }
     }
+
+public static function exotelDndActivation($number)
+{
+    $yourAccountId = 'mengage';
+    $yourApiToken = 'aae6a18ce1902085f351aa70196b316a897fa40b';
+    $phoneNumber = $number;
+    $yourSid = "mengage";
+    $exotelSubdomain = "api.exotel.com";
+
+
+
+    $apiEndpoint = "https://{$exotelSubdomain}/v1/Accounts/{$yourSid}/CustomerWhitelist/";
+
+    $data = array(
+        'VirtualNumber' => $phoneNumber, 
+        'Number' => $phoneNumber,
+        'Language' => 'en'
+    );
+
+    // Build the POST data string
+    $postData = http_build_query($data);
+
+    // Initialize cURL session
+    $curl = curl_init();
+
+    // Set cURL options
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $apiEndpoint,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $postData,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/x-www-form-urlencoded",
+            "Authorization: Basic " . base64_encode("{$yourAccountId}:{$yourApiToken}")
+        )
+    ));
+
+    // Execute cURL session
+    $response = curl_exec($curl);
+
+    // Check for errors
+    if (curl_errno($curl)) {
+        $response = array("status"=>false,"message"=>"DND acivated","subcode"=>204);
+        
+    } else {
+        
+        $xml = new SimpleXMLElement($response);
+    
+    // Access elements and attributes
+    $total = $xml->Result->Total;
+    $duplicate = $xml->Result->Duplicate;
+    $processed = $xml->Result->Processed;
+    $succeeded = (int)$xml->Result->Succeeded;
+    $redundant = (int)$xml->Result->Redundant;
+    $failed = $xml->Result->Failed;
+    $message = $xml->Result->Message;
+    // Check if the operation was successful
+    if ($succeeded === 1 || ($succeeded === 0 && $redundant > 0)) {
+        // Handle success
+        $message = $xml->Result->Message;
+        $response = array("status"=>true,"message"=>$message,"subcode"=>200);
+        
+    } else {
+        
+        $response = array("status"=>false,"message"=>"Operation failed","subcode"=>204);
+    }
+    
+         
+    }
+    // Close cURL session
+    curl_close($curl);
+    return $response;
+
+}
+
 
 
 }
