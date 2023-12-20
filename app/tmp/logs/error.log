@@ -66918,3 +66918,89 @@ Request URL: /php_factory/add_home_screen/doctorapps/manifest.json?url=add_home_
 Stack Trace:
 #0 D:\xampp\htdocs\php_factory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2023-12-20 15:10:36 Error: [MissingActionException] Action servicesController::test() could not be found.
+Exception Attributes: array (
+  'controller' => 'servicesController',
+  'action' => 'test',
+)
+Request URL: /DoctorFactory/services/test?url=services%2Ftest
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(191): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(165): Dispatcher->_invoke(Object(ServicesController), Object(CakeRequest))
+#2 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2023-12-20 15:11:43 Error: [MissingActionException] Action servicesController::test() could not be found.
+Exception Attributes: array (
+  'controller' => 'servicesController',
+  'action' => 'test',
+)
+Request URL: /DoctorFactory/services/test?url=services%2Ftest
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(191): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(165): Dispatcher->_invoke(Object(ServicesController), Object(CakeRequest))
+#2 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2023-12-20 15:17:59 Error: [MissingActionException] Action servicesController::test() could not be found.
+Exception Attributes: array (
+  'controller' => 'servicesController',
+  'action' => 'test',
+)
+Request URL: /DoctorFactory/services/test?url=services%2Ftest
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(191): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(165): Dispatcher->_invoke(Object(ServicesController), Object(CakeRequest))
+#2 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2023-12-20 15:18:09 Error: [MissingActionException] Action servicesController::test() could not be found.
+Exception Attributes: array (
+  'controller' => 'servicesController',
+  'action' => 'test',
+)
+Request URL: /DoctorFactory/services/test?url=services%2Ftest
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(191): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(165): Dispatcher->_invoke(Object(ServicesController), Object(CakeRequest))
+#2 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2023-12-20 15:19:56 Error: [MissingActionException] Action servicesController::test() could not be found.
+Exception Attributes: array (
+  'controller' => 'servicesController',
+  'action' => 'test',
+)
+Request URL: /DoctorFactory/services/test?url=services%2Ftest
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(191): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(165): Dispatcher->_invoke(Object(ServicesController), Object(CakeRequest))
+#2 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2023-12-20 15:52:53 Error: [MissingActionException] Action servicesController::test() could not be found.
+Exception Attributes: array (
+  'controller' => 'servicesController',
+  'action' => 'test',
+)
+Request URL: /DoctorFactory/services/test?url=services%2Ftest
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(191): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(165): Dispatcher->_invoke(Object(ServicesController), Object(CakeRequest))
+#2 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2023-12-20 15:53:23 Error: [MissingActionException] Action servicesController::test() could not be found.
+Exception Attributes: array (
+  'controller' => 'servicesController',
+  'action' => 'test',
+)
+Request URL: /DoctorFactory/services/test?url=services%2Ftest
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(191): Controller->invokeAction(Object(CakeRequest))
+#1 D:\xampp\htdocs\DoctorFactory\lib\Cake\Routing\Dispatcher.php(165): Dispatcher->_invoke(Object(ServicesController), Object(CakeRequest))
+#2 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2023-12-20 17:42:59 Error: [MissingControllerException] Controller class CronJobsController could not be found.
+Exception Attributes: array (
+  'class' => 'CronJobsController',
+  'plugin' => NULL,
+)
+Request URL: /DoctorFactory/cron_jobs/mengage_low_balance_alert?url=cron_jobs%2Fmengage_low_balance_alert
+Stack Trace:
+#0 D:\xampp\htdocs\DoctorFactory\app\webroot\index.php(129): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
