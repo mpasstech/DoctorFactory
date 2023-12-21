@@ -65,7 +65,7 @@ Router::connect('/vshare', array('controller' => 'homes', 'action' => 'vshare'))
 Router::connect('/skype', array('controller' => 'homes', 'action' => 'skype'));
 Router::connect('/patient_engagement', array('controller' => 'homes', 'action' => 'doctor'));
 Router::connect('/success', array('controller' => 'homes', 'action' => 'success'));
-Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
+Router::connect('/login', array('controller' => 'users', 'action' => 'org_login'));
 Router::connect('/org-login', array('controller' => 'app_admin', 'action' => 'org_login'));
 Router::connect('/forgot', array('controller' => 'users', 'action' => 'forgot_pasword'));
 Router::connect('/franchise', array('controller' => 'franchise', 'action' => 'login'));

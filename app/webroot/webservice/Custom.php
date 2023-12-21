@@ -11200,8 +11200,10 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
         }
 
         $query = "SELECT final.id, final.payment_type, sum(final.total) as total FROM ((SELECT  IFNULL(hpt.id,0) as id, IFNULL(hpt.NAME,'Cash') AS payment_type, SUM(mpo.total_amount+mpo.refund_amount) AS total  FROM medical_product_orders AS mpo JOIN appointment_customer_staff_services AS acss ON acss.id = mpo.appointment_customer_staff_service_id LEFT JOIN hospital_payment_types AS hpt ON hpt.id = mpo.hospital_payment_type_id  WHERE $condition GROUP BY id) UNION ALL (SELECT  IFNULL(hpt.id,0) as id, IFNULL(hpt.NAME,'Cash') AS payment_type, -SUM(mpo.refund_amount) AS total  FROM medical_product_orders AS mpo JOIN appointment_customer_staff_services AS acss ON acss.id = mpo.appointment_customer_staff_service_id LEFT JOIN hospital_payment_types AS hpt ON hpt.id = mpo.refund_payment_type_id  WHERE $condition GROUP BY id )) AS final group by id";
+        // echo $query; die;
         $connection = ConnectionUtil::getConnection();
         $list = $connection->query($query);
+        // echo $list->num_rows ; die;
         if ($list->num_rows) {
             return mysqli_fetch_all($list,MYSQLI_ASSOC);
         }else{

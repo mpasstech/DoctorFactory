@@ -7718,21 +7718,34 @@ class AppAdminController extends AppController
             $or_condition = array();
             $custom_condition = " and acss.appointment_staff_id = $staff_id";
             $amount_condition["MedicalProductOrder.appointment_staff_id"] = $staff_id;
+            $custom_condition_archive = " and acss.appointment_staff_id = $staff_id";
+            $amount_condition_archive["MedicalProductOrder.appointment_staff_id"] = $staff_id;
+          
+          
+          
             //$amount_condition["DATE(AppointmentCustomerStaffService.appointment_datetime)"]  = date('Y-m-d');
 
             if (!empty($date) && !empty($month)) {
                 $from_date = DateTime::createFromFormat('d-m-Y', $date);
                 $from_date = $from_date->format('Y-m-d');;
                 $defaltCondition["DATE(AppointmentCustomerStaffService.appointment_datetime) >="] = $conditions["DATE(AppointmentCustomerStaffService.appointment_datetime) >="] = $from_date;
+                $defaltCondition_archive["DATE(AppointmentCustomerStaffServiceArchive.appointment_datetime) >="] = $conditions_archive["DATE(AppointmentCustomerStaffServiceArchive.appointment_datetime) >="] = $from_date;
                 $amount_condition["DATE(AppointmentCustomerStaffService.appointment_datetime) >="] = $from_date;
+                $amount_condition_archive["DATE(AppointmentCustomerStaffServiceArchive.appointment_datetime) >="] = $from_date;
+                
 
 
                 $to_date = DateTime::createFromFormat('d-m-Y', $month);
                 $to_date = $to_date->format('Y-m-d');
                 $defaltCondition["DATE(AppointmentCustomerStaffService.appointment_datetime) <="] = $conditions["DATE(AppointmentCustomerStaffService.appointment_datetime) <="] = $to_date;
+                $defaltCondition_archive["DATE(AppointmentCustomerStaffServiceArchive.appointment_datetime) <="] = $conditions["DATE(AppointmentCustomerStaffService.appointment_datetime) <="] = $to_date;
+                $conditions_archive["DATE(AppointmentCustomerStaffServiceArchive.appointment_datetime) <="] = $to_date;
                 $amount_condition["DATE(AppointmentCustomerStaffService.appointment_datetime) <="] = $to_date;
+                $amount_condition_archive["DATE(AppointmentCustomerStaffServiceArchive.appointment_datetime) <="] = $to_date;
+
 
                 $custom_condition .= " AND DATE(acss.appointment_datetime) BETWEEN '$from_date' AND '$to_date' ";
+                $custom_condition_archive .= " AND DATE(acss.appointment_datetime) BETWEEN '$from_date' AND '$to_date' ";
             }
 
 
@@ -7740,8 +7753,14 @@ class AppAdminController extends AppController
             $defaltCondition["AppointmentCustomerStaffService.appointment_staff_id"] = $conditions["AppointmentCustomerStaffService.appointment_staff_id"] = $staff_id;
             $defaltCondition["AppointmentCustomerStaffService.delete_status !="] = $conditions["AppointmentCustomerStaffService.delete_status !="] = "DELETED";
 
+            $defaltCondition_archive["AppointmentCustomerStaffServiceArchive.thinapp_id"] = $conditions_archive["AppointmentCustomerStaffServiceArchive.thinapp_id"] = $login['thinapp_id'];
+            $defaltCondition_archive["AppointmentCustomerStaffServiceArchive.appointment_staff_id"] = $conditions_archive["AppointmentCustomerStaffServiceArchive.appointment_staff_id"] = $staff_id;
+            $defaltCondition_archive["AppointmentCustomerStaffServiceArchive.delete_status !="] = $conditions_archive["AppointmentCustomerStaffServiceArchive.delete_status !="] = "DELETED";
+
 
             $defaltCondition["payment_status"] = 'SUCCESS';
+            $defaltCondition_archive["payment_status"] = 'SUCCESS';
+            
 
 
             if (!empty($name)) {
@@ -7756,6 +7775,8 @@ class AppAdminController extends AppController
 
             if (!empty($service_name)) {
                 $conditions["AppointmentService.name LIKE"] = '%' . $service_name . '%';
+                $conditions_archive["AppointmentService.name LIKE"] = '%' . $service_name . '%';
+                
             }
 
             if (!empty($mobile)) {
@@ -7769,25 +7790,38 @@ class AppAdminController extends AppController
 
             if (!empty($status)) {
                 $conditions["AppointmentCustomerStaffService.status"] = $status;
+                $conditions_archive["AppointmentCustomerStaffServiceArchive.status"] = $status;
                 $custom_condition .=" and acss.status = '$status' ";
+                $custom_condition_archive .=" and acss.status = '$status' ";
+
             }
 
             if (!empty($payment_status)) {
                 $conditions["AppointmentCustomerStaffService.payment_status"] = $payment_status;
+                $conditions_archive["AppointmentCustomerStaffServiceArchive.payment_status"] = $payment_status;
+
                 $custom_condition .=" and acss.payment_status = '$payment_status' ";
+                $custom_condition_archive .=" and acss.payment_status = '$payment_status' ";
             }
             if (!empty($appointment_address)) {
                 $conditions["AppointmentCustomerStaffService.appointment_address_id"] = $appointment_address;
+                $conditions_archive["AppointmentCustomerStaffServiceArchive.appointment_address_id"] = $appointment_address;
+
                 $custom_condition .=" and acss.appointment_address_id = $appointment_address ";
             }
             if (!empty($has_token)) {
                 $conditions["AppointmentCustomerStaffService.has_token"] = $has_token;
+                $conditions_archive["AppointmentCustomerStaffServiceArchive.has_token"] = $has_token;
                 $custom_condition .=" and acss.has_token = '$has_token' ";
+                $custom_condition_archive .=" and acss.has_token = '$has_token' ";
             }
         	
         	if (!empty($booking_via) && $booking_via != 'ALL') {
                 $conditions["AppointmentCustomerStaffService.appointment_booked_from"] = $booking_via;
+                $conditions_archive["AppointmentCustomerStaffServiceArchive.appointment_booked_from"] = $booking_via;
+
                 $custom_condition .=" and acss.appointment_booked_from = '$booking_via' ";
+                $custom_condition_archive .=" and acss.appointment_booked_from = '$booking_via' ";
             }
         
             if ($appointment_payment_type != '') {
@@ -7797,26 +7831,41 @@ class AppAdminController extends AppController
                         "AppointmentCustomerStaffService.booking_payment_type" => $appointment_payment_type,
                         "AppointmentCustomerStaffService.hospital_payment_type_id" => array(0, null)
                     );
+                    $conditions_archive["OR"] = array(
+                        "AppointmentCustomerStaffServiceArchive.booking_payment_type" => $appointment_payment_type,
+                        "AppointmentCustomerStaffServiceArchive.hospital_payment_type_id" => array(0, null)
+                    );
 
                     $custom_condition .=" and ( acss.booking_payment_type = '$appointment_payment_type' OR acss.hospital_payment_type_id IN(0,NULL) ) ";
+                    $custom_condition_archive .=" and ( acss.booking_payment_type = '$appointment_payment_type' OR acss.hospital_payment_type_id IN(0,NULL) ) ";
+                    
 
                 } else if ($appointment_payment_type == "ONLINE") {
 
                     $conditions["AppointmentCustomerStaffService.booking_payment_type"] = $appointment_payment_type;
+                    $conditions_archive["AppointmentCustomerStaffServiceArchive.booking_payment_type"] = $appointment_payment_type;
                     $custom_condition .=" and acss.booking_payment_type = '$appointment_payment_type' ";
+                    $custom_condition_archive .=" and acss.booking_payment_type = '$appointment_payment_type' ";
+
 
                 } else {
                     $conditions["AppointmentCustomerStaffService.hospital_payment_type_id"] = (int)$appointment_payment_type;
+                    $conditions_archive["AppointmentCustomerStaffServiceArchive.hospital_payment_type_id"] = (int)$appointment_payment_type;
+
                     $custom_condition .=" and acss.hospital_payment_type_id = $appointment_payment_type ";
+                    $custom_condition_archive .=" and acss.hospital_payment_type_id = $appointment_payment_type ";
+
                 }
             }
 
             if (!empty($or_condition)) {
 
                 $conditions['AND'] = $or_condition;
+                $conditions_archive['AND'] = $or_condition;
             }
             $sort_array = explode("##", $sort);
             $order_by = array("AppointmentCustomerStaffService" . "." . $sort_array[0] . " " . strtoupper($sort_array[1]));
+            $order_by_archive = array("AppointmentCustomerStaffServiceArchive" . "." . $sort_array[0] . " " . strtoupper($sort_array[1]));
 
 
             $limit = $this->AppointmentCustomerStaffService->find('count', array(
@@ -7826,7 +7875,7 @@ class AppAdminController extends AppController
             ));
 
 
-            $appointment_list = $this->AppointmentCustomerStaffService->find('all', array(
+            $appointment_list_ = $this->AppointmentCustomerStaffService->find('all', array(
                 "fields"=>array(
                     "IF( (SELECT pda.id FROM patient_due_amounts AS pda WHERE MedicalProductOrder.id = pda.medical_product_order_id AND pda.settlement_by_order_id != MedicalProductOrder.id and pda.settlement_by_order_id > 0 limit 1) IS NOT NULL,'YES','NO') as due_amount_settled",
                     'AppointmentCustomerStaffService.*',
@@ -7850,7 +7899,43 @@ class AppAdminController extends AppController
                 'limit' => $limit
             ));
 
-            //pr($appointment_list);die;
+            
+            $limit_archive = $this->AppointmentCustomerStaffServiceArchive->find('count', array(
+                "conditions" => $conditions_archive,
+                'contain' => array('MedicalProductOrder', 'Children', 'HospitalPaymentType', 'AppointmentCategory', 'AppointmentStaff', 'AppointmentService', 'AppointmentCustomer', 'AppointmentAddress'),
+                'order' => $order_by_archive
+            ));
+
+            $appointment_list_archive = $this->AppointmentCustomerStaffServiceArchive->find('all', array(
+                "fields"=>array(
+                    "IF( (SELECT pda.id FROM patient_due_amounts AS pda WHERE MedicalProductOrder.id = pda.medical_product_order_id AND pda.settlement_by_order_id != MedicalProductOrder.id and pda.settlement_by_order_id > 0 limit 1) IS NOT NULL,'YES','NO') as due_amount_settled",
+                    'AppointmentCustomerStaffServiceArchive.*',
+                    'AppointmentCustomer.title',
+                    'AppointmentCustomer.first_name',
+                    'AppointmentCustomer.address',
+                    'AppointmentCustomer.mobile',
+                    'Children.title',
+                    'Children.child_name',
+                    'Children.mobile',
+                    'Children.address',
+                    'AppointmentAddress.address',
+                    'MedicalProductOrder.total_amount',
+                    'MedicalProductOrder.payment_description',
+                    'HospitalPaymentType.name',
+
+                ),
+                "conditions" => $conditions_archive,
+                'contain' => array('MedicalProductOrder', 'Children', 'HospitalPaymentType', 'AppointmentCustomer', 'AppointmentAddress'),
+                'order' => $order_by_archive,
+                'limit' => $limit_archive
+            ));
+            //echo count($appointment_list_archive); die;
+            $appointment_list = array_merge($appointment_list_, $appointment_list_archive);
+
+            // $appointment_list[] = $appointment_list_archive[0];
+            // echo "<pre>";
+            // print_r($appointment_list);die;
+
 
             $payment_type = Custom::get_doctor_collection(0,"", "",0,0,$custom_condition);
 
@@ -13283,12 +13368,13 @@ class AppAdminController extends AppController
         if ($this->request->is(array('ajax'))) {
             $data = $this->request->data['ids'];
             $data = "('" . implode("','", $data) . "')";
-            $query1 = "UPDATE `appointment_customer_staff_services` SET `delete_status` = 'DELETED',`medical_product_order_id`= '0', `amount` = '0' ,`ipd_procedure_amount` = '0.00' ,`vaccination_amount` = '0.00' ,`other_amount` = '0.00' , `payment_status` = 'PENDING' , `transaction_id` = '' , `payment_by_user_id` = 0 WHERE `id` IN " . $data;
-            $query2 = "DELETE FROM `medical_product_orders` WHERE `appointment_customer_staff_service_id` IN " . $data;
+            $query1 = "UPDATE `appointment_customer_staff_services` SET `delete_status` = 'DELETED',`medical_product_order_id`= '0', `amount` = '0' ,`ipd_procedure_amount` = '0.00' ,`vaccination_amount` = '0.00' ,`other_amount` = '0.00' , `payment_status` = 'PENDING' , `transaction_id` = '' , `payment_by_user_id` = 0 WHERE `id` IN " . $data;            $query2 = "DELETE FROM `medical_product_orders` WHERE `appointment_customer_staff_service_id` IN " . $data;
             $query3 = "DELETE FROM `medical_product_order_details` WHERE `appointment_customer_staff_service_id` IN " . $data;
 
             
             $query4 = "UPDATE `appointment_customer_staff_services_archive` SET `delete_status` = 'DELETED',`medical_product_order_id`= '0', `amount` = '0' ,`ipd_procedure_amount` = '0.00' ,`vaccination_amount` = '0.00' ,`other_amount` = '0.00' , `payment_status` = 'PENDING' , `transaction_id` = '' , `payment_by_user_id` = 0 WHERE `id` IN " . $data;
+
+            
             $query5 = "DELETE FROM `medical_product_orders_archive` WHERE `appointment_customer_staff_service_id` IN " . $data;
             $query6 = "DELETE FROM `medical_product_order_details_archive` WHERE `appointment_customer_staff_service_id` IN " . $data;
 

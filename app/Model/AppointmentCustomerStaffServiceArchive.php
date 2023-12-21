@@ -3,7 +3,7 @@
 class AppointmentCustomerStaffServiceArchive extends AppModel {
 
     public $actsAs = array('Containable');
-    public $useTable = 'medical_product_order_details_archive';
+    public $useTable = 'appointment_customer_staff_services_archive';
     public $hasOne = array(
         'CustomerAdmitDetail' => array(
             'className' => 'HospitalIpd',

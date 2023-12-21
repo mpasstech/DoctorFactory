@@ -108,7 +108,7 @@ $staff_data = @$this->AppAdmin->get_doctor_by_id($login1['AppointmentStaff']['id
                 <tbody>
                 <?php foreach ($appointment_list as $key => $list){
 
-
+                            $list["AppointmentCustomerStaffService"] = isset($list["AppointmentCustomerStaffService"]) ? $list["AppointmentCustomerStaffService"]:$list["AppointmentCustomerStaffServiceArchive"]
                     ?>
                     <tr>
 
