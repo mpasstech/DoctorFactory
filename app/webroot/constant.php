@@ -60,7 +60,7 @@ define('GOOGLE_API_KEY','AIzaSyARC7VY-3Jf0oflukR5ehIchc2Wf2jkqss');
 define('FIREBASE_SERVER_KEY','AIzaSyCWdw6-oJX6Jkp2UfSHGvuhlDvozj6RQUI');
 
 define('SUPER_ADMIN_EMAIL','engage@mengage.in');
-define('SUPER_ADMIN_MOBILE','+917412991122');
+define('SUPER_ADMIN_MOBILE','+918955004048');
 
 define('payment_getway',serialize(array('RAZORPAY'=>'Razorpay','PAYPAL'=>'Paypal')));
 define("DEFAULT_COVER_IMAGE","https://s3-eu-west-1.amazonaws.com/mbroadcastdemo/image/201611021721341308243784.jpg");
@@ -112,7 +112,7 @@ define('INSTAMOJO_PRIVATE_AUTH_TOKEN',"test_aa082c1a41b4fc6f3066709dfe7");
 
 define('INSTAMOJO_URL',"http://mengage.in/doctor/staging_site/instamojo/handle_redirect.php");
 define('MENGAGE_APP_ID',459);
-define('MAIN_SUPPORT_ADMIN_MOBILE','+917412991122');
+define('MAIN_SUPPORT_ADMIN_MOBILE','+918955004048');
 define("MENGAGE_AWS_DEFAULT_PATH","https://s3-ap-south-1.amazonaws.com/mengage/");
 define("MYSCRIPT_URL","https://cloud.myscript.com/api/v3.0/recognition/rest/text/doSimpleRecognition.json");
 //define("MYSCRIPT_APPLICATION_KEY","85ba5a63-1b76-40e5-a13d-97e8ad88e531");
