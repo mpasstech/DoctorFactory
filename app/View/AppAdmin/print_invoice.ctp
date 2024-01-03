@@ -379,8 +379,8 @@ if (!isset($_COOKIE["template_invoice"]) || ($_COOKIE["template_invoice"] == "de
             <br>
             <table>
                 <tr>
-                    <td align="left" valign="top" class="company_detail_holder">
-                        <h2><?php echo ($data['receipt_header_title'] != '') ? $data['receipt_header_title'] : $data['app_name']; ?></h2>
+                    <td align="left" valign="top" class="company_detail_holder" >
+                        <h2 style="line-height: 1.6rem;margin: 0px !important; text-align:center"><?php echo ($data['receipt_header_title'] != '') ? $data['receipt_header_title'] : $data['app_name']; ?></h2>
                         <div class="logo_img">
                             <?php if ($data['logo'] != '' && $login['Thinapp']['id'] != '318') { ?>
                                 <img src="<?php echo $data['logo']; ?>">
@@ -1473,11 +1473,12 @@ if (!isset($_COOKIE["template_invoice"]) || ($_COOKIE["template_invoice"] == "de
                     margin-top: 3px;
                 }
 
-                h2 {
+                /* h2 {
 
                     line-height: 0px;
+                    
 
-                }
+                } */
 
                 .logo_img img {
                     margin-left: 21%;
@@ -1751,7 +1752,7 @@ if (!isset($_COOKIE["template_invoice"]) || ($_COOKIE["template_invoice"] == "de
                         </div>
                     </td>
                     <td class="hospital_title">
-                        <h1><?php echo ($data['receipt_header_title'] != '') ? $data['receipt_header_title'] : $data['app_name']; ?></h1>
+                        <h1 style="line-height: 1.6rem !important;"><?php echo ($data['receipt_header_title'] != '') ? $data['receipt_header_title'] : $data['app_name']; ?></h1>
                         <p>
                             <?php if ($invoice_type == "DUE") { ?>
                                 <?php echo ucwords($data['address']); ?>
@@ -2623,12 +2624,18 @@ if (!isset($_COOKIE["template_invoice"]) || ($_COOKIE["template_invoice"] == "de
         </style>
         <style>
             @media print {
+
+                .hospital_title h1{
+                    line-height: 1rem !important;
+                }
                 .container {
                     width: 650px;
                     padding: 0;
                     margin: 0;
                     margin-left: auto;
                     margin-right: auto;
+
+                    
                 }
 
                 .logo_img img {
@@ -3019,7 +3026,7 @@ if (!isset($_COOKIE["template_invoice"]) || ($_COOKIE["template_invoice"] == "de
             <table class="top_table">
                 <tr>
                     <td class="hospital_title">
-                        <h1><?php echo ($data['receipt_header_title'] != '') ? $data['receipt_header_title'] : $data['app_name']; ?></h1>
+                        <h1 style="line-height: 1.6rem !important;"><?php echo ($data['receipt_header_title'] != '') ? $data['receipt_header_title'] : $data['app_name']; ?></h1>
                         <p>
                             <?php if ($invoice_type == "DUE") { ?>
                                 <?php echo ucwords($data['address']); ?>
