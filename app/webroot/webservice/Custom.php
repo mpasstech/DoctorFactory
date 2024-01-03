@@ -15682,6 +15682,7 @@ public static function counter_get_doctor_active_appointment_data($thin_app_id,$
             $save['callback_sms'] =$callback_sms;
         }
         $message_id = isset($response['sid'])?$response['sid']:$response['MessageSid'];
+        
         if(!empty($message_id)){
             WebservicesFunction::createJson($message_id,json_encode($save),"CREATE","NOT_TO_DELETE_CACHE/whatsapp");    
         }

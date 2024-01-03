@@ -20816,17 +20816,23 @@ class WebServicesFunction_2_3
     	//WebservicesFunction::createJson(date('Ymdhis'),json_encode($_POST),"CREATE","NOT_TO_DELETE_CACHE/whatsapp");die;
         $file_name = $_REQUEST['MessageSid'];
         $MessageStatus = $_REQUEST['SmsStatus'];
-        //$ErrorCode = $_REQUEST['ErrorCode'];
+        $thin_app_id = 0;
+        $message="";
+        if($data = json_decode(WebservicesFunction::readJson($file_name,"NOT_TO_DELETE_CACHE/whatsapp"),true)){
+            $thin_app_id = !empty($data['thin_app_id'])?$data['thin_app_id']:134;
+            $message = (isset($data['callback_sms']))?$data['callback_sms']:$data['message'];
+            /*
+                INSERT INTO SENT SMS DETAIL TABLE 
+            */
+
+        }
+        
         if($MessageStatus=='failed' || $MessageStatus =='Undelivered'){
-            if($data = json_decode(WebservicesFunction::readJson($file_name,"NOT_TO_DELETE_CACHE/whatsapp"),true)){
-                $thin_app_id = !empty($data['thin_app_id'])?$data['thin_app_id']:134;
-            	$message = (isset($data['callback_sms']))?$data['callback_sms']:$data['message'];
+            if(!empty($thin_app_id) && !empty($message)){
                 Custom::send_single_sms($data['mobile'],$message,$thin_app_id,false,false);
             }
-        	WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
-        }else{
-       		WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
         }
+        WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
      
     	die('success');
     }
