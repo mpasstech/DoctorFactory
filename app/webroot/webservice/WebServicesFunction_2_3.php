@@ -20816,22 +20816,39 @@ class WebServicesFunction_2_3
     	//WebservicesFunction::createJson(date('Ymdhis'),json_encode($_POST),"CREATE","NOT_TO_DELETE_CACHE/whatsapp");die;
         $file_name = $_REQUEST['MessageSid'];
         $MessageStatus = $_REQUEST['SmsStatus'];
+        $sent_via = "WEB";
+        $router_name = "TWELLIO";
+        $created = Custom::created();
+        $sms_type = "WHATSAPP_SMS";
+        $status = "SUCCESS";
         $thin_app_id = 0;
         $message="";
         if($data = json_decode(WebservicesFunction::readJson($file_name,"NOT_TO_DELETE_CACHE/whatsapp"),true)){
             $thin_app_id = !empty($data['thin_app_id'])?$data['thin_app_id']:134;
-            $message = (isset($data['callback_sms']))?$data['callback_sms']:$data['message'];
-            
-
+            $message = (isset($data['message']))?$data['message']:$data['callback_sms'];
+            $mobile = (isset($data['mobile']))?$data['mobile']:"";
         }
-        
+
         if($MessageStatus=='failed' || $MessageStatus =='Undelivered'){
+            $status = "FAILED";
+
             if(!empty($thin_app_id) && !empty($message)){
                 Custom::send_single_sms($data['mobile'],$message,$thin_app_id,false,false);
             }
         }
+
+
+        if(!empty($mobile) && !empty($thin_app_id))
+        {
+            $connection = ConnectionUtil::getConnection();
+
+            $sql = "INSERT INTO sent_sms_details (receiver_mobile, thinapp_id, `status`, message_text, sent_via, router_name, sms_response_id,created,modified,sms_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $connection->prepare($sql);
+            $stmt->bind_param('ssssssssss', $mobile, $thin_app_id, $status, $message, $sent_via,$router_name,$file_name,$created,$created,$sms_type);
+            return true;
+        }
+
         WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
-     
     	die('success');
     }
 

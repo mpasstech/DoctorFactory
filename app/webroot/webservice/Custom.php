@@ -14241,16 +14241,19 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
 
             }
             if(!empty($option)){
-                $path = SITE_PATH."twilio_auth/whatsapp.php";
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $path);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($option));
-                $return_array = curl_exec($ch);
-                curl_close($ch);
-                return $return_array;
+
+                return Custom::sendWhatsappSms($option['to_number'],$option['body']);
+
+                // $path = SITE_PATH."twilio_auth/whatsapp.php";
+                // $ch = curl_init();
+                // curl_setopt($ch, CURLOPT_URL, $path);
+                // curl_setopt($ch, CURLOPT_POST, true);
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($option));
+                // $return_array = curl_exec($ch);
+                // curl_close($ch);
+                // return $return_array;
             }
         }
         return false;

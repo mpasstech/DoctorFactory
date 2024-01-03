@@ -4487,18 +4487,24 @@ class WebservicesFunction
 
     public static function test()
     {
-
-
-
-        Custom::emitSocet(array('thin_app_id'=>134,'doctor_id'=>132));
-
-        die;
-        $res = Custom::callToPatient("+914444444444",905,132,0); die();
-
-
-
-
-
+        $file_name = "123456789";
+        $sent_via = "WEB";
+        $router_name = "TWELLIO";
+        $created = Custom::created();
+        $sms_type = "WHATSAPP_SMS";
+        $status = "FAILED";
+        $thin_app_id = "123456789";
+        $message="check";
+        $mobile = "6377825801";
+        // echo ("'ssssssssss', $mobile, $thin_app_id, $status, $message, $sent_via,$router_name,$file_name,$created,$created,$sms_type"); die;
+        $connection = ConnectionUtil::getConnection();
+        $qwer = "INSERT INTO sent_sms_details (receiver_mobile, thinapp_id, `status`, message_text, sent_via, router_name, sms_response_id,created,modified,sms_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            $stmt = $connection->prepare($qwer);
+                            $stmt->bind_param('ssssssssss', $mobile, $thin_app_id, $status, $message, $sent_via,$router_name,$file_name,$created,$created,$sms_type);
+                            $stmt->execute();
+                            
+            print_r($stmt); die;
+                            
     }
 
     public static function fun_get_subscriber_list($thin_app_id, $user_id, $limit, $offset)
