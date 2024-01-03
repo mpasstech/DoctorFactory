@@ -14,7 +14,7 @@
     <?php echo $this->Html->css(array('tracker.css')); ?>
     <style>
         #zoomElement {
-
+            /* position: absolute; */
             display: none;
             align-items: center;
             justify-content: center;
@@ -1863,6 +1863,9 @@
 
             var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
             var windowWidth = window.innerWidth;
+
+            //  windowWidth = Math.round(windowWidth * 0.7);
+            //  windowHeight = Math.round(windowHeight * 0.7);
             $(zoomElement).css("z-index", "1000");
             $(zoomElement).css("display", "flex");
             $(zoomElement).css("opacity", "1");

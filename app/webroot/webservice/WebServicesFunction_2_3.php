@@ -20821,11 +20821,10 @@ class WebServicesFunction_2_3
         if($data = json_decode(WebservicesFunction::readJson($file_name,"NOT_TO_DELETE_CACHE/whatsapp"),true)){
             $thin_app_id = !empty($data['thin_app_id'])?$data['thin_app_id']:134;
             $message = (isset($data['callback_sms']))?$data['callback_sms']:$data['message'];
-            /*
-                INSERT INTO SENT SMS DETAIL TABLE 
-            */
+            
 
         }
+         $test = "";
         
         if($MessageStatus=='failed' || $MessageStatus =='Undelivered'){
             if(!empty($thin_app_id) && !empty($message)){
