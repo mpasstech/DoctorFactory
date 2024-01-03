@@ -20824,7 +20824,6 @@ class WebServicesFunction_2_3
             
 
         }
-         $test = "";
         
         if($MessageStatus=='failed' || $MessageStatus =='Undelivered'){
             if(!empty($thin_app_id) && !empty($message)){
