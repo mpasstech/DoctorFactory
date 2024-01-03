@@ -9020,14 +9020,14 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
 
                                     if($thin_app_id==902 || $doctor_data['department_category_id']==32){
                                         $doctor_name = trim(preg_replace("/\([^)]+\)/","",$doctor_name));
-                                        $message = "CONFIRMED\nService - $doctor_name\nToken-$token, Date-$date\nLive Token Status\n$web_app_link\nBy MEngage";
+                                        $message = "CONFIRMED\nService - $doctor_name\nToken-($token), Date-$date\nLive Token Status\n$web_app_link\nBy MEngage";
                                         $w_message = "CONFIRMED\nService - $doctor_name\nToken-$token, Date-$date\nLive Token Status\n$web_app_link";
                                     }else{
 
                                         if(Custom::check_app_enable_permission($thin_app_id, 'QUEUE_MANAGEMENT_APP')){
                                             $receiptUrl = " - ";
                                         }
-                                        $message = "CONFIRMED\nToken-$token, Date-$date\nTime-$time_string\nToken Status\n$web_app_link\nPayment Receipt\n$receiptUrl\nBy MEngage";
+                                        $message = "CONFIRMED\nToken-($token), Date-$date\nTime-$time_string\nToken Status\n$web_app_link\nPayment Receipt\n$receiptUrl\nBy MEngage";
                                     }
 
                                     if($mobile!='+919999999999'){
