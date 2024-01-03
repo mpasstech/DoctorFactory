@@ -14,14 +14,14 @@
     <?php echo $this->Html->css(array('tracker.css')); ?>
     <style>
         #zoomElement {
-            /* position: absolute; */
+
             display: none;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: absolute;
             transition: transform 0.5s ease, opacity 5s ease;
-            background-color: #fff;
+            background-color: #ffffffad;
             transform-origin: center center;
             font-size: 50px;
             color: #3f84bf;
@@ -1866,7 +1866,7 @@
 
             //  windowWidth = Math.round(windowWidth * 0.7);
             //  windowHeight = Math.round(windowHeight * 0.7);
-            $(zoomElement).css("z-index", "1000");
+            $(zoomElement).css("z-index", "9999999");
             $(zoomElement).css("display", "flex");
             $(zoomElement).css("opacity", "1");
             $(zoomElement).css("height", windowHeight);
@@ -1887,5 +1887,9 @@
             }
         }
         deleteMp3FilesFromLocalStorage();
+        updateZoom();
     });
+    var html = "<div style='background:#fff;width:70%;margin:10% auto;display:block;text-align:center;font-size:10rem;' >" + "Dr check " + "<span class='blink' style='font-weight:600;color:green;font-size: 30rem;width: 50%;display:block;text-align:center;margin: 0 auto;'>" + "1" + " </span><label style='display:block;width:100%;text-align:center;font-size:6rem;font-weight:600;'>Token Number</label></div>"
+                    $("#zoomElement").html(html);
+   
 </script>
