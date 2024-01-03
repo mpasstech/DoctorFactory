@@ -39,9 +39,9 @@ public static function updateNextToken()
             $request = file_get_contents("php://input");
             $data = json_decode($request, true);
         }
-
         $notification_data= $response=array();
         $thin_app_id = isset($data['thin_app_id']) ? base64_decode($data['thin_app_id']) : "";
+       
         $doctor_mobile = isset($data['doctor_mobile']) ? base64_decode($data['doctor_mobile']) : "";
         $patient_mobile = isset($data['patient_mobile']) ? $data['patient_mobile'] : "";
         $patient_name = isset($data ['patient_name']) ? $data['patient_name'] : "";
@@ -706,7 +706,6 @@ public static function updateNextToken()
         
         	if($token==0 && Custom::isCustomizedAppId($thin_app_id)){
                 $doctor_ids =isset($data['doctor_ids'])?$data['doctor_ids']:"";
-            	
                 $res = Custom::emitSocet(array('thin_app_id'=>$thin_app_id,'doctor_id'=>$doctor_id,'play'=>false,'doctor_ids'=>$doctor_ids));
             	if(!empty($doctor_ids)){
                     $doctor_ids = explode(",",$data['doctor_ids']);

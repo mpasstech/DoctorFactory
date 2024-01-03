@@ -3083,6 +3083,7 @@ class Custom
 
         $file_name = Custom::encrypt_decrypt('encrypt',"doctor_".$doctor_id);
         if(!$data = json_decode(Custom::encrypt_decrypt('decrypt',WebservicesFunction::readJson($file_name,"doctor")),true)){
+          
             $connection = ConnectionUtil::getConnection();
             $query = "select * from appointment_staffs  where id = $doctor_id limit 1";
             $doctor_data = $connection->query($query);
@@ -3090,10 +3091,12 @@ class Custom
                 $data = mysqli_fetch_assoc($doctor_data);
                 $data_string =json_encode($data);
                 $data_string = Custom::encrypt_decrypt('encrypt',$data_string);
+                
                 WebservicesFunction::createJson($file_name,$data_string,"CREATE","doctor");
             }
         }
         if (!empty($data)) {
+           
             return $data;
         }else{
             return false;
@@ -15790,11 +15793,13 @@ public static function counter_get_doctor_active_appointment_data($thin_app_id,$
     public static function fortisGetCurrentToken($thin_app_id,$doctor_id){
         $file_name = "fortis_tracker_".$doctor_id."_".date('Y-m-d');
         $tracker_data = json_decode(WebservicesFunction::readJson($file_name,"fortis"),true);
-        if(!Custom::isCustomizedAppId($thin_app_id) && empty($tracker_data['current'])){
+        
+            if(!Custom::isCustomizedAppId($thin_app_id) && empty($tracker_data['current'])){
             $tracker_data['last'] = $tracker_data['current'] = false;
             $tracker_data['current'] = Custom::fortisGetNextToken($thin_app_id,$doctor_id,0);
             WebservicesFunction::createJson($file_name,json_encode($tracker_data),"CREATE","fortis");
         }
+        // print_r($tracker_data);die;
         return $tracker_data;
     }
 
@@ -16569,7 +16574,7 @@ $query = "select acss.id as appointment_id, acss.queue_number as token_number,ac
                 $elephant->close();
             }
         }catch(Exception $e){
-
+                echo $e->getMessage();die;
         }
 
         return true;

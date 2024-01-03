@@ -4488,6 +4488,11 @@ class WebservicesFunction
     public static function test()
     {
 
+
+
+        Custom::emitSocet(array('thin_app_id'=>134,'doctor_id'=>132));
+
+        die;
         $res = Custom::callToPatient("+914444444444",905,132,0); die();
 
 

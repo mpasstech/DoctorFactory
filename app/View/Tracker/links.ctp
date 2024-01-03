@@ -28,6 +28,7 @@
                 <th>S.NO</th>
                 <th>App Name</th>
                 <th>Tracker Url</th>
+                <th>Media Tracker Url</th>
                 <th>DTI Login</th>
             </tr>
             <?php foreach ($list as $key=>$app){ ?>
@@ -36,6 +37,9 @@
                     <td><?php echo $app['name']; ?></td>
                     <td>
                         <a class="btn btn-success" href="<?php echo Router::url('/tracker/fortis?t=',true).base64_encode($app['id']); ?>"> Tracker Url </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-success" href="<?php echo Router::url('/tracker/qms_media_tracker?t=',true).base64_encode($app['id']); ?>">Media Tracker Url</a>
                     </td>
                     <td>
                         <a class="btn btn-info" href="<?php echo Router::url('/dti/',true).$app['slug']; ?>"> DTI Login </a>
