@@ -15290,25 +15290,28 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
 	 public static function sendWhatsappSms($to_number,$body,$callback_sms=null)
     {
             
-            $accountSid = TWILIO_SID;
-            $authToken = TWILIO_TOKEN;
-            $url = 'https://api.twilio.com/2010-04-01/Accounts/' . $accountSid . '/Messages.json';
-            $data = http_build_query([
-                'From' => 'whatsapp:+19843004757',
-                'To' =>"whatsapp:$to_number",  
-                'Body' => $body,
-            ]);
-            $ch = curl_init($url);
-            // Set cURL options
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-            curl_setopt($ch, CURLOPT_USERPWD, $accountSid . ':' . $authToken);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            $return_array = curl_exec($ch);
-            $response = json_decode($return_array,true);
-            Custom::send_whats_sms_response($to_number,$body,0,$response,$callback_sms);
-            curl_close($ch);
+            if($to_number!="+919999999999"){
+                $accountSid = TWILIO_SID;
+                $authToken = TWILIO_TOKEN;
+                $url = 'https://api.twilio.com/2010-04-01/Accounts/' . $accountSid . '/Messages.json';
+                $data = http_build_query([
+                    'From' => 'whatsapp:+19843004757',
+                    'To' =>"whatsapp:$to_number",  
+                    'Body' => $body,
+                ]);
+                $ch = curl_init($url);
+                // Set cURL options
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                curl_setopt($ch, CURLOPT_USERPWD, $accountSid . ':' . $authToken);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                $return_array = curl_exec($ch);
+                $response = json_decode($return_array,true);
+                Custom::send_whats_sms_response($to_number,$body,0,$response,$callback_sms);
+                curl_close($ch);
+            }
+           
             return true;
         
     }

@@ -20812,10 +20812,13 @@ class WebServicesFunction_2_3
         exit();
     }
 
-	public static function whatsapp_callback(){
+	
+    public static function whatsapp_callback(){
     	//WebservicesFunction::createJson(date('Ymdhis'),json_encode($_POST),"CREATE","NOT_TO_DELETE_CACHE/whatsapp");die;
         $file_name = $_REQUEST['MessageSid'];
         $MessageStatus = $_REQUEST['SmsStatus'];
+    	$MessageDetail = $_REQUEST['MessageStatus'];
+    
         $sent_via = "WEB";
         $router_name = "TWELLIO";
         $created = Custom::created();
@@ -20828,28 +20831,33 @@ class WebServicesFunction_2_3
             $message = (isset($data['message']))?$data['message']:$data['callback_sms'];
             $mobile = (isset($data['mobile']))?$data['mobile']:"";
         }
-
+        $sendSms = false;
         if($MessageStatus=='failed' || $MessageStatus =='Undelivered'){
             $status = "FAILED";
-
-            if(!empty($thin_app_id) && !empty($message)){
-                Custom::send_single_sms($data['mobile'],$message,$thin_app_id,false,false);
+            $sendSms = true;
+        	if(!empty($thin_app_id) && !empty($message)){
+                $res = Custom::send_single_sms($data['mobile'],$message,$thin_app_id,false,false);
             }
+        	WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
         }
-
-
-        if(!empty($mobile) && !empty($thin_app_id))
+    	if($status=="FAILED" || $MessageStatus =='delivered'){
+        	if(!empty($mobile) && !empty($thin_app_id))
         {
             $connection = ConnectionUtil::getConnection();
-
-            $sql = "INSERT INTO sent_sms_details (receiver_mobile, thinapp_id, `status`, message_text, sent_via, router_name, sms_response_id,created,modified,sms_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO sent_sms_details (receiver_mobile, thinapp_id, `status`, message_text, sent_via, router_name, sms_response_id,created,modified,sms_type,response_detail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
             $stmt = $connection->prepare($sql);
-            $stmt->bind_param('ssssssssss', $mobile, $thin_app_id, $status, $message, $sent_via,$router_name,$file_name,$created,$created,$sms_type);
-            return true;
+            $stmt->bind_param('sssssssssss', $mobile, $thin_app_id, $status, $message, $sent_via,$router_name,$file_name,$created,$created,$sms_type,$MessageDetail);
+            $res =  $stmt->execute();
+            WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
+        }	
+        
         }
 
-        WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
+        
+
+       
     	die('success');
+
     }
 
 	 public static function chatboat_doctor_categories_list()

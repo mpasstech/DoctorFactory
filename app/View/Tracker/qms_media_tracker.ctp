@@ -1487,7 +1487,7 @@
 
 
 
-                    var html = "<div style='width:100%;float:left;display:block;text-align:center;font-size:10rem;' >" + service_nameText + "<span class='blink' style='font-weight:600;color:green;font-size: 30rem;width: 50%;display:block;text-align:center;margin: 0 auto;'>" + token_numberText + " </span><label style='display:block;width:100%;text-align:center;font-size:6rem;font-weight:600;'>Token Number</label></div>"
+                    var html = "<div style='background:#fff;width:70%;margin:10% auto;display:block;text-align:center;font-size:10rem;' >" + service_nameText + "<span class='blink' style='font-weight:600;color:green;font-size: 30rem;width: 50%;display:block;text-align:center;margin: 0 auto;'>" + token_numberText + " </span><label style='display:block;width:100%;text-align:center;font-size:6rem;font-weight:600;'>Token Number</label></div>"
                     $("#zoomElement").html(html);
 
                     updateZoom();
@@ -1887,9 +1887,9 @@
             }
         }
         deleteMp3FilesFromLocalStorage();
-        updateZoom();
+        
     });
-    var html = "<div style='background:#fff;width:70%;margin:10% auto;display:block;text-align:center;font-size:10rem;' >" + "Dr check " + "<span class='blink' style='font-weight:600;color:green;font-size: 30rem;width: 50%;display:block;text-align:center;margin: 0 auto;'>" + "1" + " </span><label style='display:block;width:100%;text-align:center;font-size:6rem;font-weight:600;'>Token Number</label></div>"
-                    $("#zoomElement").html(html);
+    
+                
    
 </script>
