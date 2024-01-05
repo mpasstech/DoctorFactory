@@ -8981,7 +8981,7 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
                                 $assign_minutes = AUTO_ASSIGN_TOKEN_MINUTES." minutes ";
                                 $message =$w_message= "कृपया हमारे संपर्क नंबर को डाॅक्टर या हॉस्पिटल के नाम से सेव करे।\n\nआपके टाइम स्लॉट का विवरण\n\nदिनांक- $date\nनियुक्ति समय- $time\n\nनिर्धारित समय से $assign_minutes पहले आपको टोकन का मेसेज प्राप्त होगा, जिससे टोकन की लाइव स्थिति को ट्रैक कर सकते हैं।\n\nकभी-कभी, आपके नंबर में देरी हो सकती है क्योंकि डॉक्टर व्यस्त हो सकते हैं\n\nयह सिस्टम जनित संदेश है। कृपया जवाब न दें।";
                                     
-                                $res = Custom::sendWhatsappSms($mobile,$w_message,$message);
+                                $res = Custom::sendWhatsappSms($mobile,$w_message,$message,$thin_app_id);
                             }else{
                                 $message = (!empty($customer_sms) )?$customer_sms:$message;
                                 if($consulting_type!='OFFLINE'){
@@ -8993,7 +8993,7 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
                                         $form_url = Custom::short_url($form_url,$thin_app_id);
                                         $message .="\nPlease fill OPD form by click on :- $form_url";
                                     }else{
-                                        $response = Custom::sendWhatsappSms($mobile,$message);
+                                        $response = Custom::sendWhatsappSms($mobile,$message,null,$thin_app_id);
                                     }
                                 }
                                 if (!Custom::check_app_enable_permission($thin_app_id, 'MOQ_HOSPITAL') && Custom::check_app_enable_permission($thin_app_id, 'WEB_PRESCRIPTION')) {
@@ -9044,7 +9044,7 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
                                                  $w_message = "धन्यवाद आपका टोकन बुक कर लिया गया है। भविष्य में आसानी और संदर्भ के लिए, कृपया हमारे संपर्क नंबर को $doctor_name के रूप में सहेजें। आप भविष्य मै डाॅक्टर से मिलने के लिए आसान तरीके से टोकन बुक कर सकते है और निम्न लिंक का उपयोग करके वर्तमान टोकन की लाइव स्थिति को ट्रैक कर सकते हैं - $web_app_link\n\nआपका टोकन विवरण -\n\nटोकन- $token\nदिनांक- $date\nनियुक्ति समय- $time\n\nकभी-कभी, आपके नंबर में देरी हो सकती है क्योंकि डॉक्टर आपात स्थिति में अन्य रोगियों के साथ व्यस्त हो सकते हैं।\n\nभुगतान रसीद- $receiptUrl\n\nब्लॉक न करें, व्हाट्सएप को लिंक को क्लिक करने योग्य बनाने के लिए जारी रखने दें।\n\nयह सिस्टम जनित संदेश है। कृपया जवाब न दें।";
                                                
                                             }
-                                            $res = Custom::sendWhatsappSms($mobile,$w_message,$message);
+                                            $res = Custom::sendWhatsappSms($mobile,$w_message,$message,$thin_app_id);
                                         }else{
                                             if($booking_request_from=='DOCTOR_PAGE'){
                                                 $res =  Custom::send_web_app_booking_notification($patient_data['patient_mobile'],$thin_app_id,$customer_sms,$doctor_id);
@@ -9137,7 +9137,7 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
             if(Custom::check_app_enable_permission($thin_app_id, 'WHATS_APP')){
                 $doctor_apps = Custom::short_url("https://mengage.in/doctor/",$thin_app_id);
                 $w_message = "धन्यवाद आपका टोकन बुक कर लिया गया है। भविष्य में आसानी और संदर्भ के लिए, कृपया हमारे संपर्क नंबर को $doctor_name के रूप में सहेजें। आप भविष्य मै डाॅक्टर से मिलने के लिए आसान तरीके से टोकन बुक कर सकते है और निम्न लिंक का उपयोग करके वर्तमान टोकन की लाइव स्थिति को ट्रैक कर सकते हैं - $web_app_link\n\nआपका टोकन विवरण -\n\nटोकन- $token\nदिनांक- $date\nनियुक्ति समय- $time\n\nकभी-कभी, आपके नंबर में देरी हो सकती है क्योंकि डॉक्टर आपात स्थिति में अन्य रोगियों के साथ व्यस्त हो सकते हैं।\n\nभुगतान रसीद- $receiptUrl\n\nब्लॉक न करें, व्हाट्सएप को लिंक को क्लिक करने योग्य बनाने के लिए जारी रखने दें।\n\nयह सिस्टम जनित संदेश है। कृपया जवाब न दें।";
-                $res = Custom::sendWhatsappSms($mobile,$w_message,$message);
+                $res = Custom::sendWhatsappSms($mobile,$w_message,$message,$thin_app_id);
             }else{
                 $result = Custom::send_single_sms($mobile, $message, $thin_app_id,false,false);
             }
@@ -15287,7 +15287,7 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
         return false;
     }
 
-	 public static function sendWhatsappSms($to_number,$body,$callback_sms=null)
+	 public static function sendWhatsappSms($to_number,$body,$callback_sms=null,$thin_app_id=0)
     {
             
             if($to_number!="+919999999999"){
@@ -15308,7 +15308,7 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 $return_array = curl_exec($ch);
                 $response = json_decode($return_array,true);
-                Custom::send_whats_sms_response($to_number,$body,0,$response,$callback_sms);
+                Custom::send_whats_sms_response($to_number,$body,$thin_app_id,$response,$callback_sms);
                 curl_close($ch);
             }
            

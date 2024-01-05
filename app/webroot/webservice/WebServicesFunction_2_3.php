@@ -20827,8 +20827,8 @@ class WebServicesFunction_2_3
         $thin_app_id = 0;
         $message="";
         if($data = json_decode(WebservicesFunction::readJson($file_name,"NOT_TO_DELETE_CACHE/whatsapp"),true)){
-            $thin_app_id = !empty($data['thin_app_id'])?$data['thin_app_id']:134;
-            $message = (isset($data['message']))?$data['message']:$data['callback_sms'];
+            $thin_app_id = !empty($data['thin_app_id'])?$data['thin_app_id']:0;
+            $message = (isset($data['callback_sms']))?$data['callback_sms']:"";
             $mobile = (isset($data['mobile']))?$data['mobile']:"";
         }
         $sendSms = false;

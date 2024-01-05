@@ -962,7 +962,7 @@ class HomesController extends AppController {
             $param = base64_encode($appointment_id."##".'PATIENT');
             $video_link = Custom::short_url(SITE_PATH."homes/video/$param");
             $body = "*Important information - अतिआवश्यक सुचना !*\n\n$doctor_name has started video call consultation, now you can also take video call consultation by clicking on the link below.\nPlease copy paste below link in any of the  browser like Chrome, Firefox or Safari.\n\n$doctor_name ने वीडियो कॉल परामर्श शुरू कर दिया है अब आप निचे लिंक पर क्लिक करके भी वीडियो कॉल परामर्श ले सकते है |\nकृपया नीचे दिये हुए लिंक को कट एंड पेस्ट करके किसी एक इंटरनेट ब्राउज़र Chrome, Firefox या Safari में खोंले |\n".$video_link;
-            $response = Custom::sendWhatsappSms($patient_mobile,$body,$body);
+            $response = Custom::sendWhatsappSms($patient_mobile,$body,$body,$thin_app_id);
             $room = Custom::createRoomName($thin_app_id,$appointment_id,'APPOINTMENT',$msg_data['doctor_mobile'],$patient_mobile);
             Custom::manageRoomFile('DELETE',$appointment_id);
             Custom::manageRoomFile('CREATE',$appointment_id,'JOINED',$room);
@@ -3769,7 +3769,7 @@ public function  iot_token_list_modal(){
             Custom::sendResponse($response);
             Custom::send_process_to_background();
             if(!empty($send_sms)){
-                $res = Custom::sendWhatsappSms($send_sms['mobile'],$send_sms['message']);
+                $res = Custom::sendWhatsappSms($send_sms['mobile'],$send_sms['message'],null,$thin_app_id);
             }
 
             echo json_encode($response);die;
@@ -4260,7 +4260,8 @@ public function  iot_token_list_modal(){
             $whats_app_link ="https://api.whatsapp.com/send?phone=$patient_mobile";
             $whats_app_link = Custom::short_url($whats_app_link);
             $message = "PATIENT $consulting_type CALL REMINDER\nName - $patient_name\nToken No - $token     Time -$time\nStart $consulting_type_cam Call from App Using Link \n$video_link\nIn case you wish to make $consulting_type_small call from whatsapp to use  following link\n$whats_app_link\nNote : It is better to use first link through app to better organise patient interaction";
-            if(Custom::sendWhatsappSms($doctor_mobile,$message)){
+            $thin_app_id = $msg_data['thinapp_id'];
+            if(Custom::sendWhatsappSms($doctor_mobile,$message,null,$thin_app_id)){
                 $created = Custom::created();
                 $connection = ConnectionUtil::getConnection();
                 $con_str = ", first_reminder =?";
@@ -5337,7 +5338,7 @@ public function  iot_token_list_modal(){
                         $token_number = $appointmentData['queue_number'];
                         $app_date =date('d/m/Y',strtotime($appointmentData['appointment_datetime']));
                         $cancelWhats = "अपॉइंटमेंट टोकन निरस्त\n\nडॉक्टर का नाम  :- $doctor_name\nदिनांक   :- $app_date\nटोकन  :- $token_number\n\nशमा करे  डॉक्टर $doctor_name का अपॉइंटमेंट टोकन बुक नहीं हो पाया हैं ! अगर अपने टोकन फी का भुक्तान किया हैं तो  कृपया  निश्चिन्त रहिये आपको टोकन फी  सात दिनों के भीतर वापस कर दी जाएगी |\nधन्यवाद|";
-                        $res = Custom::sendWhatsappSms($mobile,$cancelWhats,$cancelWhats);
+                        $res = Custom::sendWhatsappSms($mobile,$cancelWhats,$cancelWhats,$thin_app_id);
                         
                     }
                    

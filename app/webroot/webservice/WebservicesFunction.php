@@ -10506,7 +10506,7 @@ public static function web_add_new_appointment($data = null, $appointment_booked
                                 $token_number = $is_appointment['queue_number'];
                                 $app_date =date('d/m/Y',strtotime($is_appointment['appointment_datetime']));
                                 $cancelWhats = "अपॉइंटमेंट टोकन निरस्त\n\nडॉक्टर का नाम  :- $doctor_name\nदिनांक   :- $app_date\nटोकन  :- $token_number\n\nशमा करे  डॉक्टर $doctor_name का अपॉइंटमेंट टोकन बुक नहीं हो पाया हैं ! अगर अपने टोकन फी का भुक्तान किया हैं तो  कृपया  निश्चिन्त रहिये आपको टोकन फी  सात दिनों के भीतर वापस कर दी जाएगी |\nधन्यवाद|";
-                                $res = Custom::sendWhatsappSms($mobile,$cancelWhats,$cancelWhats);
+                                $res = Custom::sendWhatsappSms($mobile,$cancelWhats,$cancelWhats,$thin_app_id);
                             }
                         }
                     }
