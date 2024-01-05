@@ -409,7 +409,6 @@ class Custom
                         if(!empty($curl_scraped_page)){
                             $thin_app_id =  $param['thinapp_id'];
                             $sms_type =  $param['sms_type'];
-
                             if($sms_type=="TRANSACTIONAL"  && strtoupper($sms_response)=="SUCCESS"){
                                 $sql  = "UPDATE app_sms_statics SET total_transactional_sms = total_transactional_sms - ? where thinapp_id = ?";
                                 $stmt = $connection->prepare($sql);
@@ -489,15 +488,18 @@ class Custom
 
     public static function get_total_sms_thinapp($thin_app_id, $type)
     {
-        $query = $query = "select ass.total_promotional_sms, ass.total_transactional_sms from thinapps as thin join app_sms_statics as ass on thin.id=ass.thinapp_id  where  thin.id = $thin_app_id";
+        $query = $query = "select ass.total_whatsapp_sms, ass.total_promotional_sms, ass.total_transactional_sms from thinapps as thin join app_sms_statics as ass on thin.id=ass.thinapp_id  where  thin.id = $thin_app_id";
         $connection = ConnectionUtil::getConnection();
         $service_message_list = $connection->query($query);
         if ($service_message_list->num_rows) {
             $staff_data = mysqli_fetch_assoc($service_message_list);
-            if ($type == 'T')
+            if ($type == 'T'){
                 return $staff_data['total_transactional_sms'];
-            else
+            }else if($type=='W'){
+                return $staff_data['total_whatsapp_sms'];
+            }else{
                 return $staff_data['total_promotional_sms'];
+            }
         } else {
             return 0;
         }
@@ -14236,24 +14238,12 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
                         //$result = Custom::send_single_sms($to_number,$body,$thin_app_id,true);
                     }
 
-                    $option = array("body"=>$body,"to_number" => $to_number);
+                    $option = array("body"=>$body,"to_number" => $to_number,"thin_app_id"=>$thin_app_id);
                 }
 
             }
             if(!empty($option)){
-
-                return Custom::sendWhatsappSms($option['to_number'],$option['body']);
-
-                // $path = SITE_PATH."twilio_auth/whatsapp.php";
-                // $ch = curl_init();
-                // curl_setopt($ch, CURLOPT_URL, $path);
-                // curl_setopt($ch, CURLOPT_POST, true);
-                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($option));
-                // $return_array = curl_exec($ch);
-                // curl_close($ch);
-                // return $return_array;
+                return Custom::sendWhatsappSms($option['to_number'],$option['body'],$option['body'],$option['thin_app_id']);
             }
         }
         return false;
@@ -15289,29 +15279,32 @@ WHERE `messages`.`thinapp_id` = '".$thinappID."' GROUP BY `messages`.`id` ORDER 
 
 	 public static function sendWhatsappSms($to_number,$body,$callback_sms=null,$thin_app_id=0)
     {
-            
             if($to_number!="+919999999999"){
-                $accountSid = TWILIO_SID;
-                $authToken = TWILIO_TOKEN;
-                $url = 'https://api.twilio.com/2010-04-01/Accounts/' . $accountSid . '/Messages.json';
-                $data = http_build_query([
-                    'From' => 'whatsapp:+19843004757',
-                    'To' =>"whatsapp:$to_number",  
-                    'Body' => $body,
-                ]);
-                $ch = curl_init($url);
-                // Set cURL options
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-                curl_setopt($ch, CURLOPT_USERPWD, $accountSid . ':' . $authToken);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                $return_array = curl_exec($ch);
-                $response = json_decode($return_array,true);
-                Custom::send_whats_sms_response($to_number,$body,$thin_app_id,$response,$callback_sms);
-                curl_close($ch);
+                $app_sms = Custom::get_total_sms_thinapp($thin_app_id, "W");
+                if ($app_sms >= 1) {
+                    $accountSid = TWILIO_SID;
+                    $authToken = TWILIO_TOKEN;
+                    $url = 'https://api.twilio.com/2010-04-01/Accounts/' . $accountSid . '/Messages.json';
+                    $data = http_build_query([
+                        'From' => 'whatsapp:+19843004757',
+                        'To' =>"whatsapp:$to_number",  
+                        'Body' => $body,
+                    ]);
+                    $ch = curl_init($url);
+                    // Set cURL options
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($ch, CURLOPT_USERPWD, $accountSid . ':' . $authToken);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                    $return_array = curl_exec($ch);
+                    $response = json_decode($return_array,true);
+                    Custom::send_whats_sms_response($to_number,$body,$thin_app_id,$response,$callback_sms);
+                    curl_close($ch);
+                }else{
+                    return false;
+                }
             }
-           
             return true;
         
     }
@@ -16111,7 +16104,7 @@ $query = "select acss.id as appointment_id, acss.queue_number as token_number,ac
 
   
 	public static function getDoctorCustomDataByMobile($thin_app_id,$mobile,$new_appointment_setting = false){
-        $tmp =base64_encode($mobile);
+        $tmp =base64_encode($mobile)."_".$thin_app_id;
         $file_name = "doctor_custom_data_$tmp";
         if(!$playStatus = json_decode(WebservicesFunction::readJson($file_name,"doctor"),true)){
             $connection = ConnectionUtil::getConnection();

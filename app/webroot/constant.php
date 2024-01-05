@@ -86,6 +86,7 @@ define("SERVICE_ON_MAINTENANCE","NO");
 define("MAINTENANCE_MESSAGE","THIS APP IS UNDER MAINTENANCE MEINTENANCE");
 define("AWS_DEFAULT_PATH","http://mengage.s3-website.ap-south-1.amazonaws.com/");
 define("MESSAGE_CHARGE_RATE","0.23");
+define("WHATSAPP_CHARGE_RATE","0.23");
 define("CLOUD_CHARGE_RATE","200");
 define("CHILD_IMAGE","http://mengage.s3-website.ap-south-1.amazonaws.com/2017092116562725384.jpg");
 define("CHILD_TIMELINE_MESSAGE","Having a baby is one of the most wonderful things in your life, as well as the hardest thing in your life.");

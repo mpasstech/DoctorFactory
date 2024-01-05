@@ -100,7 +100,7 @@ echo $this->Html->script(array('select2.min.js'));
                                             <td><?php echo $value['Thinapp']['name']; ?></td>
                                             <td>Rs.&nbsp;<?php echo $value['AppSmsRecharge']['total_price']; ?></td>
                                             <td><?php
-                                                if($value['AppSmsRecharge']['recharge_for'] =="SMS"){
+                                                if($value['AppSmsRecharge']['recharge_for'] =="SMS" || $value['AppSmsRecharge']['recharge_for'] =="WHATSAPP"){
                                                     echo $value['AppSmsRecharge']['total_sms'];
                                                 }else{
                                                     echo $value['AppSmsRecharge']['total_cloud_storage'];
@@ -174,7 +174,7 @@ echo $this->Html->script(array('select2.min.js'));
                 </div>
 
                 <div class="form-group" >
-                    <?php echo $this->Form->input('recharge_for', array('type'=>'select','label'=>"Recharge For",'options'=>array('SMS'=>'SMS','CLOUD'=>'Cloud Storage'),'required'=>true,'empty'=>'Select Recharge For','class'=>'form-control recharge_for')); ?>
+                    <?php echo $this->Form->input('recharge_for', array('type'=>'select','label'=>"Recharge For",'options'=>array('SMS'=>'SMS','WHATSAPP'=>"What's App",'CLOUD'=>'Cloud Storage'),'required'=>true,'empty'=>'Select Recharge For','class'=>'form-control recharge_for')); ?>
                 </div>
                 <div class="form-group">
                     <label>Enter total amount</label>
@@ -238,7 +238,7 @@ echo $this->Html->script(array('select2.min.js'));
         $(document).on('change','.recharge_for',function(e){
             var val = $(this).val();
             $(".tot_sms_div, .cloud_div").hide();
-            if(val =="SMS"){
+            if(val =="SMS" || val =="WHATSAPP"){
                 $(".tot_sms_div").show();
             }else if(val =="CLOUD"){
                 $(".cloud_div").show();

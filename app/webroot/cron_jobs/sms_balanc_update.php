@@ -5,7 +5,7 @@ $connection = ConnectionUtil::getConnection();
 $connection->autocommit(false);
 $created = Custom::created();
 $result =array();
-$query = "SELECT  tp.id as thinapp_id from  thinapps as tp join app_sms_statics as ass on ass.thinapp_id = tp.id where (tp.booking_convenience_fee > 0 OR tp.booking_convenience_fee_video > 0) and ass.total_transactional_sms <= 500";
+$query = "SELECT  tp.id as thinapp_id, count(bcfd.thinapp_id) as total_token from  thinapps as tp join app_sms_statics as ass on ass.thinapp_id = tp.id JOIN booking_convenience_fee_details as bcfd on bcfd.thinapp_id = tp.id where  ass.total_transactional_sms <= 500 and DATE(bcfd.created) >= DATE_SUB(NOW(),INTERVAL 1 MONTH)  group by bcfd.thinapp_id having total_token > 50";
 $get_sms = $connection->query($query);
 if ($get_sms->num_rows) {
     

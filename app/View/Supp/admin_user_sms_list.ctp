@@ -67,7 +67,7 @@
                                         <th>#</th>
                                         <th>User Name</th>
                                         <th>App Name</th>
-                                        <th>Total Promotional SMS</th>
+                                        <th>Total What's App SMS</th>
                                         <th>Total Transactional SMS</th>
                                     </tr>
                                     </thead>
@@ -82,7 +82,7 @@
                                             <td><?php echo $num++; ?></td>
                                             <td><?php echo $value['User']['username']; ?></td>
                                             <td><?php echo $value['Thinapp']['name']; ?></td>
-                                            <td><?php echo $value['AppSmsStatic']['total_promotional_sms']; ?></td>
+                                            <td><?php echo $value['AppSmsStatic']['total_whatsapp_sms']; ?></td>
                                             <td><?php echo $value['AppSmsStatic']['total_transactional_sms']; ?></i></td>
                                         </tr>
                                     <?php } ?>

@@ -382,6 +382,7 @@ class WebServicesFunction_2_3
         exit();
     }
 
+   
     public static function recharge_sms($data = null)
     {
 
@@ -430,10 +431,10 @@ class WebServicesFunction_2_3
             } else if ($transaction_status != "NO_TRANSACTION" && $transaction_status != "SUCCESS" && $transaction_status != "FAILURE") {
                 $response['status'] = 0;
                 $response['message'] = 'Invalid transaction status';
-            } else if ($recharge_for != "SMS" && $recharge_for != "CLOUD") {
+            } else if ($recharge_for != "WHATSAPP" && $recharge_for != "SMS" && $recharge_for != "CLOUD") {
                 $response['status'] = 0;
                 $response['message'] = 'Invalid recharge type';
-            } else if (empty($total_sms) && $recharge_for == "SMS") {
+            } else if (empty($total_sms) && ( $recharge_for == "SMS" || $recharge_for == "WHATSAPP")) {
                 $response['status'] = 0;
                 $response['message'] = 'Invalid SMS value';
             } else if (empty($total_storage) && $recharge_for == "CLOUD") {
@@ -446,7 +447,7 @@ class WebServicesFunction_2_3
                     $connection->autocommit(false);
                     $created = Custom::created();
                     $sms_type = "TRANSACTIONAL";
-                    if ($recharge_for == "SMS") {
+                    if ($recharge_for == "SMS" || $recharge_for == "WHATSAPP") {
                         $charge_rate = MESSAGE_CHARGE_RATE;
                         $sql = "INSERT INTO app_sms_recharges (thinapp_id, user_id, sms_type, total_price, charge_rate, recharge_for,  total_sms, support_admin_id, recharge_by, transaction_id, transaction_status,  created, modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmt = $connection->prepare($sql);
@@ -458,8 +459,15 @@ class WebServicesFunction_2_3
                         $stmt->bind_param('sssssssssssss', $thin_app_id, $user_id, $sms_type, $total_price, $charge_rate, $recharge_for, $total_storage, $support_admin_id, $recharge_by, $transaction_id, $transaction_status, $created, $created);
                     }
                     if ($stmt->execute()) {
-                        if ($recharge_for == "SMS") {
-                            $app_sms = Custom::get_total_sms_thinapp($thin_app_id, "T");
+                        if ($recharge_for == "SMS" || $recharge_for == "WHATSAPP") {
+                        
+                            $type = 'T';
+                            $column = 'total_transactional_sms';
+                            if($recharge_for=='WHATSAPP'){
+                                $type = 'W';
+                                $column = 'total_whatsapp_sms';
+                            }
+                            $app_sms = Custom::get_total_sms_thinapp($thin_app_id,$type);
                             $total_balance = $app_sms + $total_sms;
                             $shoot_sms_on = 10;
                             if ($total_balance >= 500) {
@@ -469,7 +477,7 @@ class WebServicesFunction_2_3
                             } else if ($total_balance < 100 && $total_balance >= 10) {
                                 $shoot_sms_on = 10;
                             }
-                            $sql = "UPDATE app_sms_statics set total_transactional_sms = total_transactional_sms + ?, total_sms = total_transactional_sms, shoot_sms_on = ?, modified = ? where thinapp_id = ?";
+                            $sql = "UPDATE app_sms_statics set $column = $column + ?, total_sms = $column, shoot_sms_on = ?, modified = ? where thinapp_id = ?";
                             $stmt = $connection->prepare($sql);
                             $stmt->bind_param('ssss', $total_sms, $shoot_sms_on, $created, $thin_app_id);
                             if ($stmt->execute()) {
@@ -20813,12 +20821,12 @@ class WebServicesFunction_2_3
     }
 
 	
+  
     public static function whatsapp_callback(){
     	//WebservicesFunction::createJson(date('Ymdhis'),json_encode($_POST),"CREATE","NOT_TO_DELETE_CACHE/whatsapp");die;
         $file_name = $_REQUEST['MessageSid'];
         $MessageStatus = $_REQUEST['SmsStatus'];
     	$MessageDetail = $_REQUEST['MessageStatus'];
-    
         $sent_via = "WEB";
         $router_name = "TWELLIO";
         $created = Custom::created();
@@ -20844,18 +20852,23 @@ class WebServicesFunction_2_3
         	if(!empty($mobile) && !empty($thin_app_id))
         {
             $connection = ConnectionUtil::getConnection();
+            $connection->autocommit(false);
             $sql = "INSERT INTO sent_sms_details (receiver_mobile, thinapp_id, `status`, message_text, sent_via, router_name, sms_response_id,created,modified,sms_type,response_detail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
             $stmt = $connection->prepare($sql);
             $stmt->bind_param('sssssssssss', $mobile, $thin_app_id, $status, $message, $sent_via,$router_name,$file_name,$created,$created,$sms_type,$MessageDetail);
-            $res =  $stmt->execute();
+            if($stmt->execute()){
+                $sql  = "UPDATE app_sms_statics SET total_whatsapp_sms = total_whatsapp_sms - ? where thinapp_id = ?";
+                $stmt = $connection->prepare($sql);
+                $total_less = 1;
+                $stmt->bind_param('ss', $total_less, $thin_app_id);
+                if($stmt->execute()){
+                    $connection->commit();
+                }
+            }
             WebservicesFunction::deleteJson(array($file_name),"NOT_TO_DELETE_CACHE/whatsapp"); 
         }	
         
         }
-
-        
-
-       
     	die('success');
 
     }
