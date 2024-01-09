@@ -13392,7 +13392,7 @@ class ServicesController extends AppController
                                         }else{
                                             $book_more_slot = Custom::load_doctor_slot_by_address(date('Y-m-d'), $doctor_id, $doctor_data['service_slot_duration'], $thin_app_id, $address_id, false, "ADMIN", true, true);
                                             $book_more_slot = end($book_more_slot);
-                                            if (!empty($book_more_slot) && $book_more_slot['custom_slot'] == 'YES') {
+                                            if (!empty($book_more_slot) && $book_more_slotA['custom_slot'] == 'YES') {
                                                 $available_slot = $slot_time = $book_more_slot['slot'];
                                                 $post['queue_number'] = $book_more_slot['queue_number'];
                                                 $post['custom_token'] = "YES";

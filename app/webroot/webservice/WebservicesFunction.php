@@ -4487,10 +4487,27 @@ class WebservicesFunction
 
     public static function test()
     {
-       
-       
-                                die('adsfa');
-                            
+        $staff_id = "12345";
+        $address_id = "67890";
+        $thin_app_id = "123789";
+        $file_name = "staff_address".$staff_id."_" .$address_id;
+        if(!$data = json_decode(WebservicesFunction::readJson($file_name,"doctor"),true)){
+            $connection = ConnectionUtil::getConnection();
+            $query = "select aa.id as id , aa.address, asa.from_time, asa.to_time from appointment_addresses as aa join appointment_staff_addresses as asa on asa.appointment_address_id = aa.id where asa.appointment_staff_id = $staff_id and asa.appointment_address_id = $address_id AND aa.status = 'ACTIVE' and asa.thinapp_id = $thin_app_id limit 1";
+            $connection = ConnectionUtil::getConnection();
+            $service_message_list = $connection->query($query);
+            if ($service_message_list->num_rows) {
+                $data = mysqli_fetch_assoc($service_message_list);
+                WebservicesFunction::createJson($file_name,json_encode($data),"CREATE","doctor");
+            }
+        }
+        if (!empty($data)) {
+            echo "success";
+            return $data;
+        }else{
+            echo "false";
+            return false;
+        }                      
     }
 
     public static function fun_get_subscriber_list($thin_app_id, $user_id, $limit, $offset)
@@ -12500,23 +12517,23 @@ public static function web_add_new_appointment($data = null, $appointment_booked
         }
     }
 
-  public static function get_booking_slots($booking_date, $staff_id, $duration, $thin_app_id, $address_id, $break_flag = false)
+    public static function get_booking_slots($booking_date, $staff_id, $duration, $thin_app_id, $address_id, $break_flag = false)
     {
         $connection = ConnectionUtil::getConnection();
         $booking_date = date('Y-m-d', strtotime($booking_date));
         $day_time_id = date('N', strtotime($booking_date));
-        $query = "select * from appointment_staff_hours as ash where ash.appointment_staff_id=$staff_id AND ash.appointment_day_time_id = $day_time_id and ash.status = 'OPEN'";
-        $staff_day_time = $connection->query($query);
+        $file_name = "staff_day_time_id".$staff_id."_".$day_time_id;
+        $staff_day_time = Custom::getStaffDayTimeData($staff_id,$day_time_id);
         $final_array = array();
-        if ($staff_day_time->num_rows) {
-            $staff_day_time = mysqli_fetch_assoc($staff_day_time);
+        if (!empty($staff_day_time)) {
+            
 
             /* get break slots start */
             $breaks_array = array();
-            $query = "select asbs.time_to, asbs.time_from from appointment_staff_break_slots as asbs where asbs.appointment_staff_id=$staff_id AND asbs.appointment_day_time_id = $day_time_id";
-            $breaks = $connection->query($query);
-            if ($breaks->num_rows) {
-                $breaks = mysqli_fetch_all($breaks, MYSQLI_ASSOC);
+           
+            $breaks = Custom::appointmentStaffBreakSlots($staff_id,$day_time_id);
+            if (!empty($breaks)) {
+                
                 foreach ($breaks as $key => $value) {
                     $breaks_array[$key]['time_from'] = $value['time_from'];
                     $breaks_array[$key]['time_to'] = $value['time_to'];

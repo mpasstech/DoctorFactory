@@ -1578,7 +1578,7 @@
             $("#box_size").html(label);
             //$(".media-container").height(screenHeight);
 
-
+            deleteMp3FilesFromLocalStorage();
 
         }
 
@@ -1767,17 +1767,16 @@
         }
 
         showNext();
+    });
 
-        function deleteMp3FilesFromLocalStorage() {
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                var fileName = localStorage.getItem(key)
-                if (fileName.indexOf('.mp3') !== -1 || fileName.indexOf('.wav') !== -1) {
-                    localStorage.removeItem(key);
-                }
+    function deleteMp3FilesFromLocalStorage() {
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            var fileName = localStorage.getItem(key)
+            if (fileName.indexOf('.mp3') !== -1 || fileName.indexOf('.wav') !== -1) {
+                localStorage.removeItem(key);
             }
         }
-        deleteMp3FilesFromLocalStorage();
-
-    });
+    }
 </script>
