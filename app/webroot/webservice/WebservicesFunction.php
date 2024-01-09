@@ -12522,7 +12522,6 @@ public static function web_add_new_appointment($data = null, $appointment_booked
         $connection = ConnectionUtil::getConnection();
         $booking_date = date('Y-m-d', strtotime($booking_date));
         $day_time_id = date('N', strtotime($booking_date));
-        $file_name = "staff_day_time_id".$staff_id."_".$day_time_id;
         $staff_day_time = Custom::getStaffDayTimeData($staff_id,$day_time_id);
         $final_array = array();
         if (!empty($staff_day_time)) {

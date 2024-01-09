@@ -2784,7 +2784,7 @@ class Custom
             $query = "select aa.id as id ,asa.appointment_address_id, aa.address, asa.from_time, asa.to_time from appointment_addresses as aa join appointment_staff_addresses as asa on asa.appointment_address_id = aa.id where asa.appointment_staff_id = $staff_id   AND aa.status = 'ACTIVE' and asa.thinapp_id = $thin_app_id";
             $connection = ConnectionUtil::getConnection();
             $service_message_list = $connection->query($query);
-            
+
             if ($service_message_list->num_rows) {
                 $data = mysqli_fetch_all($service_message_list, MYSQLI_ASSOC);
                 $temp_data = array();
@@ -11779,10 +11779,10 @@ WHERE `messages`.`thinapp_id` = '" . $thinappID . "' GROUP BY `messages`.`id` OR
         $file_name_2 = "doctor_ids_$thin_app_id";
         $file_name_3 = "doctor_custom_data_" . base64_encode($mobile);
         $file_name_4 = "staff_hours_" . $doctor_id;
-        $file_name_5 = "break_slots".$doctor_id;
+        $file_name_5 = "break_slots" . $doctor_id;
         $file_name_6 = "staff_appointment_address" . $doctor_id;
 
-        WebservicesFunction::deleteJson(array($file_name, $file_name_1, $file_name_2, $file_name_3,$file_name_4,$file_name_5,$file_name_6), 'doctor');
+        WebservicesFunction::deleteJson(array($file_name, $file_name_1, $file_name_2, $file_name_3, $file_name_4, $file_name_5, $file_name_6), 'doctor');
         $file_name = array("slot_booking_data_$doctor_id", "breaks_$doctor_id");
         WebservicesFunction::deleteJson($file_name, "appointment/$doctor_id");
         $file_name = array("doctor_hours_$doctor_id", "doctor_slots_new_app_$doctor_id");
@@ -11790,9 +11790,6 @@ WHERE `messages`.`thinapp_id` = '" . $thinappID . "' GROUP BY `messages`.`id` OR
         Custom::delete_hospital_cache($thin_app_id);
         $file_name = array("blog_post_$post_id");
         WebservicesFunction::deleteJson($file_name, "blog");
-      
-        
-
     }
 
 
@@ -17114,9 +17111,9 @@ WHERE `messages`.`thinapp_id` = '" . $thinappID . "' GROUP BY `messages`.`id` OR
         if (!$staff_day_time = json_decode(WebservicesFunction::readJson($file_name, "doctor"), true)) {
             $connection = ConnectionUtil::getConnection();
             $query = "select * from appointment_staff_hours as ash where ash.appointment_staff_id=$staff_id  and ash.status = 'OPEN'";
-            $staff_day_time = $connection->query($query);
-            if ($staff_day_time->num_rows) {
-                $staff_day_time = mysqli_fetch_all($staff_day_time, MYSQLI_ASSOC);
+            $staff_day_time_data = $connection->query($query);
+            if ($staff_day_time_data->num_rows) {
+                $staff_day_time = mysqli_fetch_all($staff_day_time_data, MYSQLI_ASSOC);
                 $temp_data = array();
                 foreach ($staff_day_time as $key => $val) {
                     $temp_data[$val["appointment_day_time_id"]] = $val;
@@ -17128,23 +17125,23 @@ WHERE `messages`.`thinapp_id` = '" . $thinappID . "' GROUP BY `messages`.`id` OR
         return $staff_day_time[$day_time_id];
     }
 
-    public static function appointmentStaffBreakSlots($staff_id,$day_time_id)
+    public static function appointmentStaffBreakSlots($staff_id, $day_time_id)
     {
-        $file_name = "break_slots".$staff_id;
-        if(!$breaks = json_decode(WebservicesFunction::readJson($file_name,"doctor"),true)){
+        $file_name = "break_slots" . $staff_id;
+        if (!$breaks = json_decode(WebservicesFunction::readJson($file_name, "doctor"), true)) {
             $connection = ConnectionUtil::getConnection();
             $query = "select asbs.time_to, asbs.time_from,asbs.appointment_day_time_id from appointment_staff_break_slots as asbs where asbs.appointment_staff_id=$staff_id ";
-            $breaks = $connection->query($query);
-            if ($breaks->num_rows) {
-                $breaks = mysqli_fetch_all($breaks, MYSQLI_ASSOC);
+            $breaks_data = $connection->query($query);
+            if ($breaks_data->num_rows) {
+                $breaks = mysqli_fetch_all($breaks_data, MYSQLI_ASSOC);
                 $temp_data = array();
                 foreach ($breaks as $key => $val) {
                     $temp_data[$val["appointment_day_time_id"]][] = $val;
                 }
                 $breaks = $temp_data;
-                WebservicesFunction::createJson($file_name,json_encode($breaks),"CREATE","doctor");
+                WebservicesFunction::createJson($file_name, json_encode($breaks), "CREATE", "doctor");
             }
         }
-        return $breaks[$day_time_id];
+        return isset($breaks[$day_time_id])?$breaks[$day_time_id]:false;
     }
 }
